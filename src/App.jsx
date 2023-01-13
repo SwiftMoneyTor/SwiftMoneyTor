@@ -12,7 +12,7 @@ function App() {
     <div className="App">
       <Navigation handleComponent={(component) => { setComponent(component) }} />
       <Container component={component} />
-      <Footer />
+      <Footer component={component} />
     </div>
   )
 }

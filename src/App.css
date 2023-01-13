@@ -32,6 +32,15 @@ font-family: 'Nunito', sans-serif; */
    height: 200px;
  }
 
+ .form-signin {
+   max-width: 330px;
+   padding: 15px;
+ }
+
+ .login-footer {
+   margin-top: 35vh;
+ }
+
  @media (max-width:375px) {
    .devices>.col>img {
      height: 100px;

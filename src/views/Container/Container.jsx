@@ -1,10 +1,12 @@
 import Devices from "../Devices/Devices"
 import Features from "../Features/Features"
 import Hero from "../Hero/Hero"
+import Login from "../Login/Login"
+
 
 const Container = (props) => {
     return (
-        <div>
+        <>
             {props.component == 'home' &&
                 <>
                     <Hero />
@@ -12,7 +14,12 @@ const Container = (props) => {
                     <Devices />
                 </>
             }
-        </div>
+            {props.component == 'login' &&
+                <>
+                    <Login />
+                </>
+            }
+        </>
     )
 }
 
