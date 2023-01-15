@@ -1,25 +1,27 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { React, useState } from 'react';
+import { React } from 'react';
 import './App.css';
+import useAppStore from './appStore';
+import DashContainer from './views/Dashboard/DashContainer/DashContainer';
 import Footer from './views/Footer/Footer';
 import Container from './views/LandingPage/Container/Container';
 import Navigation from './views/LandingPage/Navigation/Navigation';
 
 
 function App() {
-  const [component, setComponent] = useState('home')
-  const [dashboard, setDashboard] = useState(false)
+  const dashboard = useAppStore(state => state.dashboard)
   return (
     <div className="App">
       {!dashboard ?
         <>
-          <Navigation handleComponent={(component) => { setComponent(component) }} />
-          <Container component={component} handleDashboard={(dashboard) => { setDashboard(dashboard) }} />
-          <Footer component={component} />
+          <Navigation />
+          <Container />
+          <Footer />
         </>
         :
         <>
           {/*apply dashboard components here*/}
+          <DashContainer />
         </>
       }
 

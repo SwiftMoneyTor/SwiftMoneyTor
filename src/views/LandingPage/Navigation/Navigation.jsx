@@ -2,10 +2,12 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import useAppStore from '../../../appStore';
 
-const Navigation = (props) => {
+const Navigation = () => {
+    const setComponent = useAppStore(state => state.setComponent)
     const handleClick = (event) => {
-        props.handleComponent(event.target.innerHTML.toLowerCase())
+        setComponent(event.target.innerHTML.toLowerCase())
     }
     return (
         <Navbar bg="light" expand="lg">

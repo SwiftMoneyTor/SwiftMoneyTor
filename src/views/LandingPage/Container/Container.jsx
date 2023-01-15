@@ -1,20 +1,16 @@
-import { useState } from "react"
+import useAppStore from "../../../appStore"
 import Devices from "../../Devices/Devices"
 import Features from "../../Features/Features"
 import Login from "../../Login/Login"
 import Hero from "../Hero/Hero"
 
 
-const Container = (props) => {
-    const [click, setClick] = useState(false)
-    if (click) {
-        // this returns a boolean value to parent component
-        props.handleDashboard(click)
-    }
+const Container = () => {
+    const component = useAppStore(state => state.component)
     return (
         <>
             {/* if component is equal to home show the components inside <></> tag */}
-            {props.component == 'home' &&
+            {component == 'home' &&
                 <>
                     <Hero />
                     <Features />
@@ -22,9 +18,9 @@ const Container = (props) => {
                 </>
             }
             {/* if component is equal to login show the components inside <></> tag */}
-            {props.component == 'login' &&
+            {component == 'login' &&
                 <>
-                    <Login handleLogin={(click) => setClick(click)} />
+                    <Login />
                 </>
             }
         </>
