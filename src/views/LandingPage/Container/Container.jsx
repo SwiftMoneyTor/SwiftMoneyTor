@@ -1,7 +1,7 @@
 import useAppStore from "../../../appStore"
-import Devices from "../../Devices/Devices"
-import Features from "../../Features/Features"
 import Login from "../../Login/Login"
+import Devices from "../Devices/Devices"
+import Features from "../Features/Features"
 import Hero from "../Hero/Hero"
 
 

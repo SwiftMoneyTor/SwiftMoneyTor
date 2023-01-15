@@ -41,6 +41,10 @@ font-family: 'Nunito', sans-serif; */
    margin-top: 35vh;
  }
 
+ .nav.flex-column.gap-3>* {
+   border: solid 0.01px gainsboro;
+ }
+
  @media (max-width:375px) {
    .devices>.col>img {
      height: 100px;
