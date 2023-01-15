@@ -1,18 +1,28 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { React, useState } from 'react';
 import './App.css';
-import Container from './views/Container/Container';
 import Footer from './views/Footer/Footer';
-import Navigation from './views/Navigation/Navigation';
+import Container from './views/LandingPage/Container/Container';
+import Navigation from './views/LandingPage/Navigation/Navigation';
 
 
 function App() {
   const [component, setComponent] = useState('home')
+  const [dashboard, setDashboard] = useState(false)
   return (
     <div className="App">
-      <Navigation handleComponent={(component) => { setComponent(component) }} />
-      <Container component={component} />
-      <Footer component={component} />
+      {!dashboard ?
+        <>
+          <Navigation handleComponent={(component) => { setComponent(component) }} />
+          <Container component={component} handleDashboard={(dashboard) => { setDashboard(dashboard) }} />
+          <Footer component={component} />
+        </>
+        :
+        <>
+          {/*apply dashboard components here*/}
+        </>
+      }
+
     </div>
   )
 }

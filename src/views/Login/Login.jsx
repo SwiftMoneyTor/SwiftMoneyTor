@@ -1,4 +1,7 @@
-const Login = () => {
+const Login = (props) => {
+    const handleClick = () => {
+        props.handleLogin(true)
+    }
     return (
         <div className="container p-5">
             <main className="form-signin m-auto">
@@ -12,7 +15,7 @@ const Login = () => {
                         <label htmlFor="password">Password</label>
                         <input type="password" id="password" className="form-control" />
                     </div>
-                    <button className="btn btn-lg btn-primary align-self-center">Sign  in</button>
+                    <button className="btn btn-lg btn-primary align-self-center" onClick={handleClick}>Sign  in</button>
                     <p className="my-3 text-muted">© {new Date().getFullYear()}</p>
                 </form>
             </main>
