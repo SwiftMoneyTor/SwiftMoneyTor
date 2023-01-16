@@ -25,7 +25,7 @@ font-family: 'Nunito', sans-serif; */
  h5,
  span,
  button {
-   font-family: 'Nunito', sans-serif;
+  font-family: 'Nunito', sans-serif !important;
  }
 
  .devices>.col>img {
@@ -41,8 +41,23 @@ font-family: 'Nunito', sans-serif; */
    margin-top: 35vh;
  }
 
- .nav.flex-column.gap-3>* {
-   border: solid 0.01px gainsboro;
+ .nav.flex-column>* {
+   display: flex;
+   justify-content: flex-start;
+   gap: 10px;
+   align-items: center;
+   width: 100%;
+   color: #53893D;
+ }
+
+ .nav.flex-column>*:hover {
+   color: #373739;
+   background-color: #F8C68B;
+ }
+
+ .activeDash {
+   color: #373739 !important;
+   background-color: #F8C68B;
  }
 
  @media (max-width:375px) {

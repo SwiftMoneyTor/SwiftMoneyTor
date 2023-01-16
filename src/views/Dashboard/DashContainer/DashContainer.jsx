@@ -3,7 +3,7 @@ import SideNav from "../SideNav/SideNav"
 
 const DashContainer = () => {
     return (
-        <div className="container py-4">
+        <div className="container-fluid p-3">
             <div className="row">
                 <div className="col-2">
                     <SideNav />
