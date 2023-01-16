@@ -7,17 +7,20 @@ import useAppStore from '../../../appStore';
 const Navigation = () => {
     const setComponent = useAppStore(state => state.setComponent)
     const handleClick = (event) => {
-        setComponent(event.target.innerHTML.toLowerCase())
+        setComponent(event.target.getAttribute('data-nav'))
+
     }
     return (
         <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand href="#home"><Image src='logo4.png' fluid={true} height={150} width={150} /></Navbar.Brand>
+                <Navbar.Brand href="javascript:void(0)" onClick={handleClick}>
+                    <Image src='logo4.png' fluid={true} height={275} width={275} data-nav='home' />
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <Nav.Link href="#home" onClick={handleClick}>Home</Nav.Link>
-                        <Nav.Link href="#link" onClick={handleClick}>Login</Nav.Link>
+                        <Nav.Link href="javascript:void(0)" onClick={handleClick} data-nav='home'>Home</Nav.Link>
+                        <Nav.Link href="javascript:void(0)" onClick={handleClick} data-nav='login'>Login</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
