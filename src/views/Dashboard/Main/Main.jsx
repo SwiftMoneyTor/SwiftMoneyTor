@@ -8,7 +8,9 @@ const Main = () => {
     const activeTitle = useAppStore(state => state.activeDash)
     return (
         <>
-            <h1 className="text-capitalize">{activeTitle.split('_')[0]}</h1>
+            <h1 className="text-capitalize">
+                {activeTitle && activeTitle.split('_')[0]}
+            </h1>
             {activeTitle == 'dashboard' &&
                 <>
                     <MainDashBoard />

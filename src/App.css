@@ -41,16 +41,14 @@ font-family: 'Nunito', sans-serif; */
    margin-top: 35vh;
  }
 
- .nav.flex-column>* {
-   display: flex;
-   justify-content: flex-start;
+ .nav.flex-row>* {
+  display: flex;
    gap: 10px;
-   align-items: center;
-   width: 100%;
+  align-items: center;
    color: #53893D;
  }
 
- .nav.flex-column>*:hover {
+ .nav.flex-row>*:hover {
    color: #373739;
    background-color: #F8C68B;
  }
@@ -60,6 +58,10 @@ font-family: 'Nunito', sans-serif; */
    background-color: #F8C68B;
  }
 
+ p.MuiTablePagination-displayedRows.css-levciy-MuiTablePagination-displayedRows,
+ p.MuiTablePagination-selectLabel.css-pdct74-MuiTablePagination-selectLabel {
+   margin: 0 !important;
+ }
  @media (max-width:375px) {
    .devices>.col>img {
      height: 100px;

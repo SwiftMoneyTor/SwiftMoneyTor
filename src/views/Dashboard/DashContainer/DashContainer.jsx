@@ -4,14 +4,16 @@ import SideNav from "../SideNav/SideNav"
 const DashContainer = () => {
     return (
         <div className="container-fluid p-3">
-            <div className="row">
-                <div className="col-2">
-                    <SideNav />
-                </div>
-                <div className="col-10">
-                    <Main />
-                </div>
+            <div>
+                <SideNav />
             </div>
+
+
+
+
+                    <Main />
+
+
         </div>
     )
 }
