@@ -32,9 +32,9 @@ const DashBoardNav = () => {
                 }).then(result => {
                     if (result.isConfirmed) {
                         setDashboard()
+                        setActive('dashboard')
                     }
                 })
-
             }
         })
     }
@@ -52,7 +52,7 @@ const DashBoardNav = () => {
                         <Nav.Link href="#inventory" data-dashnav="inventory" onClick={handleClick} className={`${activeDashboard == "inventory" ? `activeDash` : ``}`} >Inventory</Nav.Link>
                         <Nav.Link href="#reports" data-dashnav="reports" onClick={handleClick} className={`${activeDashboard == "reports" ? `activeDash` : ``}`} >Reports</Nav.Link>
                         <Nav.Link href="#accounts" data-dashnav="accounts management" onClick={handleClick} className={`${activeDashboard == "accounts management" ? `activeDash` : ``}`} >Accounts</Nav.Link>
-                        <Nav.Link href="#logout" onClick={handleLogout} >Logout</Nav.Link>
+                        <Nav.Link href="#logout" data-dashnav="dashboard" onClick={handleLogout} >Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

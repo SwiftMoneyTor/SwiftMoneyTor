@@ -1,7 +1,10 @@
 import useAppStore from "../../appStore"
 
 const Login = () => {
-    const handleClick = useAppStore(state => state.setDashboard)
+    const setDashboard = useAppStore(state => state.setDashboard)
+    const handleClick = () => {
+        setDashboard()
+    }
     return (
         <div className="container p-5">
             <main className="form-signin m-auto">
