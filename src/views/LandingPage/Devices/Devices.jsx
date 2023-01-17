@@ -1,7 +1,7 @@
 const Devices = () => {
     return (
         <div className="container border-top pt-4">
-            <p className="display-6"><span className="fw-bold">Compatible</span> with any hardware</p>
+            <p className="display-6"><span className="fw-bold">Compatible</span> with any devices</p>
             <p>No installation and no specific hardware required.</p>
             <div className="row devices py-5">
                 <div className="col">

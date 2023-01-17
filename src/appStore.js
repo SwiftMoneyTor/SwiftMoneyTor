@@ -6,7 +6,7 @@ const useAppStore = create(set => ({
     activeDash: 'dashboard',
     setDashboard: () => set(state => ({ dashboard: !state.dashboard })),
     setComponent: (val) => set(state => ({ component: val })),
-    setActiveDash: (val) => set(state => ({ activeDash: val }))
+    setActiveDash: (val) => set(state => ({ activeDash: val })),
 }))
 
 export default useAppStore
