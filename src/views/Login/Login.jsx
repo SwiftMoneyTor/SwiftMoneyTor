@@ -15,8 +15,7 @@ const Login = () => {
                         <label htmlFor="password">Password</label>
                         <input type="password" id="password" className="form-control" />
                     </div>
-                    <button className="btn btn-lg btn-primary align-self-center" onClick={handleClick}>Sign  in</button>
-                    <p className="my-3 text-muted">© {new Date().getFullYear()}</p>
+                    <button className="btn btn-lg btn-success align-self-center" onClick={handleClick}>Sign in</button>
                 </form>
             </main>
 

@@ -1,8 +1,13 @@
- @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Heebo&family=Nunito&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Heebo&family=Nunito&family=Raleway&display=swap');
 
- /* font-family: 'Alfa Slab One', cursive;
+ /* 
+font-family: 'Alfa Slab One', cursive;
 font-family: 'Heebo', sans-serif;
-font-family: 'Nunito', sans-serif; */
+font-family: 'Nunito',
+sans-serif;
+font-family: 'Raleway',
+sans-serif;
+*/
 
  #root {
    width: 100%;
@@ -15,9 +20,9 @@ font-family: 'Nunito', sans-serif; */
  }
 
  h1 {
-   font-family: 'Alfa Slab One', cursive;
+  font-family: 'Raleway', sans-serif;
+    text-transform: uppercase !important;
  }
-
 
  h2,
  h3,
@@ -41,27 +46,15 @@ font-family: 'Nunito', sans-serif; */
    margin-top: 35vh;
  }
 
- .nav.flex-row>* {
-  display: flex;
-   gap: 10px;
-  align-items: center;
-   color: #53893D;
- }
-
- .nav.flex-row>*:hover {
-   color: #373739;
-   background-color: #F8C68B;
- }
-
  .activeDash {
-   color: #373739 !important;
-   background-color: #F8C68B;
+  color: #F38E18 !important;
  }
 
  p.MuiTablePagination-displayedRows.css-levciy-MuiTablePagination-displayedRows,
  p.MuiTablePagination-selectLabel.css-pdct74-MuiTablePagination-selectLabel {
    margin: 0 !important;
  }
+
  @media (max-width:375px) {
    .devices>.col>img {
      height: 100px;
