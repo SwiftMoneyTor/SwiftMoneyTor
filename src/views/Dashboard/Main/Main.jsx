@@ -7,7 +7,7 @@ import Reports from "../Reports/Reports"
 const Main = () => {
     const activeTitle = useAppStore(state => state.activeDash)
     return (
-        <>
+        <div className="py-3">
             <h1 className="text-capitalize">
                 {activeTitle && activeTitle.split('_')[0]}
             </h1>
@@ -31,7 +31,7 @@ const Main = () => {
                     <AccountsManagement />
                 </>
             }
-        </>
+        </div>
     )
 }
 
