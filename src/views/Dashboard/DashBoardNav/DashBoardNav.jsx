@@ -8,6 +8,7 @@ import useAppStore from "../../../appStore";
 const DashBoardNav = () => {
     const setActive = useAppStore(state => state.setActiveDash)
     const setDashboard = useAppStore(state => state.setDashboard)
+    const activeDashboard = useAppStore(state => state.activeDash)
     const handleClick = (event) => {
         setActive(event.target.getAttribute('data-dashnav'))
     }
@@ -23,11 +24,12 @@ const DashBoardNav = () => {
             confirmButtonText: 'Confirm'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire(
-                    'Logged out!',
-                    'You have successfully logged out.',
-                    'success',
-                ).then(result => {
+                Swal.fire({
+                    title: 'Logged out',
+                    text: "You have successfully logged out",
+                    icon: 'success',
+                    confirmButtonColor: '#53893D'
+                }).then(result => {
                     if (result.isConfirmed) {
                         setDashboard()
                     }
@@ -40,16 +42,16 @@ const DashBoardNav = () => {
 
         <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand href="#!">
-                    <img src="/logo4.png" alt="logo" className="img-fluid" height={275} width={275} />
+                <Navbar.Brand href="#dashboard" onClick={handleClick}>
+                    <img src="/logo4.png" alt="logo" className="img-fluid" height={275} width={275} data-dashnav="dashboard" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <Nav.Link href="#dashboard" data-dashnav="dashboard" onClick={handleClick} >Dashboard</Nav.Link>
-                        <Nav.Link href="#inventory" data-dashnav="inventory" onClick={handleClick} >Inventory</Nav.Link>
-                        <Nav.Link href="#reports" data-dashnav="reports" onClick={handleClick} >Reports</Nav.Link>
-                        <Nav.Link href="#accounts" data-dashnav="accounts management" onClick={handleClick} >Accounts</Nav.Link>
+                        <Nav.Link href="#dashboard" data-dashnav="dashboard" onClick={handleClick} className={`${activeDashboard == "dashboard" ? `activeDash` : ``}`} >Dashboard</Nav.Link>
+                        <Nav.Link href="#inventory" data-dashnav="inventory" onClick={handleClick} className={`${activeDashboard == "inventory" ? `activeDash` : ``}`} >Inventory</Nav.Link>
+                        <Nav.Link href="#reports" data-dashnav="reports" onClick={handleClick} className={`${activeDashboard == "reports" ? `activeDash` : ``}`} >Reports</Nav.Link>
+                        <Nav.Link href="#accounts" data-dashnav="accounts management" onClick={handleClick} className={`${activeDashboard == "accounts management" ? `activeDash` : ``}`} >Accounts</Nav.Link>
                         <Nav.Link href="#logout" onClick={handleLogout} >Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
