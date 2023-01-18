@@ -31,6 +31,7 @@ const DashBoardNav = () => {
                     confirmButtonColor: '#53893D'
                 }).then(result => {
                     if (result.isConfirmed) {
+                        sessionStorage.clear()
                         setDashboard()
                         setActive('dashboard')
                     }
