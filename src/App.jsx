@@ -1,37 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { React, useEffect } from 'react';
+import { React } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import useAppStore from './appStore';
 import DashContainer from './views/Dashboard/DashContainer/DashContainer';
-import Footer from './views/Footer/Footer';
-import Container from './views/LandingPage/Container/Container';
-import Navigation from './views/LandingPage/Navigation/Navigation';
-
-
+import MainLanding from './views/LandingPage/MainLanding/MainLanding';
+import MainLogin from './views/MainLogin/MainLogin';
 function App() {
-  const dashboard = useAppStore(state => state.dashboard)
-  const setDashboard = useAppStore(state => state.setDashboard)
-
-  useEffect(() => {
-    if (sessionStorage.getItem('loggedin')) {
-      setDashboard()
-    }
-  }, [])
-
   return (
     <div className="App">
-      {!dashboard ?
-        <>
-          <Navigation />
-          <Container />
-          <Footer />
-        </>
-        :
-        <>
-          <DashContainer />
-        </>
-      }
-
+      <Routes>
+        <Route path='/' element={<MainLanding />} />
+        <Route path='/login' element={<MainLogin />} />
+        <Route path='/dashboard' element={<DashContainer />} />
+        <Route path='/inventory' element={<DashContainer />} />
+        <Route path='/reports' element={<DashContainer />} />
+        <Route path='/accounts' element={<DashContainer />} />
+        <Route path='/logout' element={<DashContainer />} />
+      </Routes>
     </div>
   )
 }

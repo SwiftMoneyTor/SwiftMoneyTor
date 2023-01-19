@@ -17,7 +17,6 @@ const Footer = () => {
                         <li className="ms-3"><FaInstagram /></li>
                         <li className="ms-3"><FaTwitter /></li>
                     </ul>
-
                 </div>
             </div>
 
