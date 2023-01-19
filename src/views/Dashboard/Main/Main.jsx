@@ -26,7 +26,7 @@ const Main = () => {
                     <Reports />
                 </>
             }
-            {activeTitle == 'accounts management' &&
+            {activeTitle == 'accounts' &&
                 <>
                     <AccountsManagement />
                 </>

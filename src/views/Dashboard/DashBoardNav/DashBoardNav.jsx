@@ -17,7 +17,6 @@ const DashBoardNav = () => {
         setActive(event.target.getAttribute('data-dashnav'))
     }
     const handleLogout = () => {
-
         Swal.fire({
             title: 'Are you sure?',
             text: "You will be logged out!",
@@ -35,7 +34,6 @@ const DashBoardNav = () => {
                     confirmButtonColor: '#53893D'
                 }).then(result => {
                     if (result.isConfirmed) {
-                        sessionStorage.clear()
                         setActive('dashboard')
                         setComponent('home')
                         navigate('/', { replace: true }, [navigate])
@@ -44,8 +42,9 @@ const DashBoardNav = () => {
             }
         })
     }
-    return (
+    const navObject = ['dashboard', 'inventory', 'reports', 'accounts']
 
+    return (
         <Navbar bg="light" expand="lg">
             <Container>
                 <Navbar.Brand>
@@ -56,18 +55,13 @@ const DashBoardNav = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <Link to="/dashboard" className={`${activeDashboard == "dashboard" ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav="dashboard">
-                            Dashboard
-                        </Link>
-                        <Link to="/inventory" className={`${activeDashboard == "inventory" ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav="inventory">
-                            Inventory
-                        </Link>
-                        <Link to="/reports" className={`${activeDashboard == "reports" ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav="reports">
-                            Reports
-                        </Link>
-                        <Link to="/accounts" className={`${activeDashboard == "accounts management" ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav="accounts management">
-                            Accounts
-                        </Link>
+                        {navObject.map((a, i) => {
+                            return (
+                                <Link to={`/${a}`} key={i} className={`${activeDashboard == a ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav={a}>
+                                    {a.charAt(0).toUpperCase() + a.slice(1)}
+                                </Link>
+                            )
+                        })}
                         <Link to="/logout" className={`${activeDashboard == "logout" ? `activeDash` : ``} nav-link`} onClick={handleLogout}>
                             Logout
                         </Link>

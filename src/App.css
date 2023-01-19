@@ -28,11 +28,12 @@ sans-serif;
  h3,
  h4,
  h5,
- span,
  button {
   font-family: 'Nunito', sans-serif !important;
  }
-
+img {
+  object-fit: contain;
+}
  .devices>.col>img {
    height: 200px;
  }
