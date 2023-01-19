@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import useAppStore from "../../appStore";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
     const { register, handleSubmit, watch, formState: { errors }, clearErrors } = useForm();
-    const setDashboard = useAppStore(state => state.setDashboard)
+    const navigate = useNavigate()
     const handleClick = (data) => {
         if (Object.keys(data).length > 0) {
-            setDashboard()
+            navigate('/dashboard', { replace: true }, [navigate])
             sessionStorage.setItem('loggedin', true)
         }
     }

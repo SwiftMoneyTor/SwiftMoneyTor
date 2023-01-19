@@ -1,3 +1,6 @@
+import Laptop from '../../../assets/devices/laptop.png'
+import Mobile from '../../../assets/devices/mobile.png'
+import PC from '../../../assets/devices/pc.png'
 const Devices = () => {
     return (
         <div className="container border-top pt-4">
@@ -5,13 +8,13 @@ const Devices = () => {
             <p>No installation and no specific hardware required.</p>
             <div className="row devices py-5">
                 <div className="col">
-                    <img src="/devices/pc.png" className="img-fluid" alt="" />
+                    <img src={PC} className="img-fluid" alt="" />
                 </div>
                 <div className="col">
-                    <img src="/devices/laptop.png" className="img-fluid" alt="" />
+                    <img src={Laptop} className="img-fluid" alt="" />
                 </div>
                 <div className="col">
-                    <img src="/devices/mobile.png" className="img-fluid" alt="" />
+                    <img src={Mobile} className="img-fluid" alt="" />
                 </div>
             </div>
         </div>

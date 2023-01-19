@@ -1,14 +1,18 @@
+import { Image } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAppStore from "../../../appStore";
+import LOGO from '../../../assets/logo.png';
 
 
 const DashBoardNav = () => {
     const setActive = useAppStore(state => state.setActiveDash)
-    const setDashboard = useAppStore(state => state.setDashboard)
     const activeDashboard = useAppStore(state => state.activeDash)
+    const setComponent = useAppStore(state => state.setComponent)
+    const navigate = useNavigate()
     const handleClick = (event) => {
         setActive(event.target.getAttribute('data-dashnav'))
     }
@@ -32,8 +36,9 @@ const DashBoardNav = () => {
                 }).then(result => {
                     if (result.isConfirmed) {
                         sessionStorage.clear()
-                        setDashboard()
                         setActive('dashboard')
+                        setComponent('home')
+                        navigate('/', { replace: true }, [navigate])
                     }
                 })
             }
@@ -43,17 +48,29 @@ const DashBoardNav = () => {
 
         <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand href="#dashboard" onClick={handleClick}>
-                    <img src="/logo4.png" alt="logo" className="img-fluid" height={275} width={275} data-dashnav="dashboard" />
+                <Navbar.Brand>
+                    <Link to='/dashboard' onClick={handleClick}>
+                        <Image src={LOGO} fluid={true} height={275} width={275} data-dashnav="dashboard" />
+                    </Link>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <Nav.Link href="#dashboard" data-dashnav="dashboard" onClick={handleClick} className={`${activeDashboard == "dashboard" ? `activeDash` : ``}`} >Dashboard</Nav.Link>
-                        <Nav.Link href="#inventory" data-dashnav="inventory" onClick={handleClick} className={`${activeDashboard == "inventory" ? `activeDash` : ``}`} >Inventory</Nav.Link>
-                        <Nav.Link href="#reports" data-dashnav="reports" onClick={handleClick} className={`${activeDashboard == "reports" ? `activeDash` : ``}`} >Reports</Nav.Link>
-                        <Nav.Link href="#accounts" data-dashnav="accounts management" onClick={handleClick} className={`${activeDashboard == "accounts management" ? `activeDash` : ``}`} >Accounts</Nav.Link>
-                        <Nav.Link href="#logout" data-dashnav="dashboard" onClick={handleLogout} >Logout</Nav.Link>
+                        <Link to="/dashboard" className={`${activeDashboard == "dashboard" ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav="dashboard">
+                            Dashboard
+                        </Link>
+                        <Link to="/inventory" className={`${activeDashboard == "inventory" ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav="inventory">
+                            Inventory
+                        </Link>
+                        <Link to="/reports" className={`${activeDashboard == "reports" ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav="reports">
+                            Reports
+                        </Link>
+                        <Link to="/accounts" className={`${activeDashboard == "accounts management" ? `activeDash` : ``} nav-link`} onClick={handleClick} data-dashnav="accounts management">
+                            Accounts
+                        </Link>
+                        <Link to="/logout" className={`${activeDashboard == "logout" ? `activeDash` : ``} nav-link`} onClick={handleLogout}>
+                            Logout
+                        </Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
