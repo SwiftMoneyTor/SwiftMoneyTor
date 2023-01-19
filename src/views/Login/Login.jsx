@@ -2,12 +2,16 @@ import { Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { MdDeleteSweep } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import useAppStore from "../../appStore";
 import LOGO from '../../assets/logo.png';
 const Login = () => {
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+    const setAuth = useAppStore(state => state.setAuth)
     const navigate = useNavigate()
     const handleSubmition = (data) => {
         if (Object.keys(data).length > 0) {
+            setAuth()
+            sessionStorage.setItem('auth', true)
             navigate('/dashboard', { replace: true }, [navigate])
         }
     }

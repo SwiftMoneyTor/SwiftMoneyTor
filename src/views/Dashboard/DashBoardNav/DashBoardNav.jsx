@@ -12,6 +12,7 @@ const DashBoardNav = () => {
     const setActive = useAppStore(state => state.setActiveDash)
     const activeDashboard = useAppStore(state => state.activeDash)
     const setComponent = useAppStore(state => state.setComponent)
+    const setAuth = useAppStore(state => state.setAuth)
     const navigate = useNavigate()
     const handleClick = (event) => {
         setActive(event.target.getAttribute('data-dashnav'))
@@ -36,6 +37,8 @@ const DashBoardNav = () => {
                     if (result.isConfirmed) {
                         setActive('dashboard')
                         setComponent('home')
+                        setAuth()
+                        sessionStorage.removeItem('auth')
                         navigate('/', { replace: true }, [navigate])
                     }
                 })
