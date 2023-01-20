@@ -28,7 +28,8 @@ sans-serif;
  h3,
  h4,
  h5,
- button {
+ button,
+ label {
   font-family: 'Nunito', sans-serif !important;
  }
 img {

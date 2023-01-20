@@ -6,8 +6,8 @@ const Hero = () => {
         event.target.setAttribute('src', src)
     }
     const navigate = useNavigate()
-    const handleClick = () => {
-        navigate('/login', { replace: true }, [navigate])
+    const handleClick = (event) => {
+        navigate(`/${event.target.innerText.toLowerCase().replace(' ', '-')}`, { replace: true }, [navigate])
     }
     return (
         <div className="container">
@@ -15,7 +15,7 @@ const Hero = () => {
                 <div className="col-lg-6">
                     <h1 className="display-1">Organize your Business</h1>
                     <button className="btn btn-lg btn-success m-2" onClick={handleClick}>Login</button>
-                    <button className="btn btn-lg btn-outline-dark m-2" >Contact Us</button>
+                    <button className="btn btn-lg btn-outline-dark m-2" onClick={handleClick}>Contact Us</button>
 
                 </div>
                 <div className="col-lg-6 py-4" onMouseOver={handleMouseOver}>

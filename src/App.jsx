@@ -5,6 +5,7 @@ import './App.css';
 import PrivateRoutes from './utils/PrivateRoutes/PrivateRoutes';
 import DashContainer from './views/Dashboard/DashContainer/DashContainer';
 import Error from './views/Error/Error';
+import ContactUs from './views/LandingPage/ContactUs/ContactUs';
 import MainLanding from './views/LandingPage/MainLanding/MainLanding';
 import Login from './views/Login/Login';
 import SignUp from './views/SignUp/SignUp';
@@ -22,6 +23,7 @@ function App() {
           <Route path='/logout' element={<DashContainer />} />
         </Route>
         <Route path='/sign-up' element={<SignUp />} />
+        <Route path='/contact-us' element={<ContactUs />} />
         <Route path='*' element={<Error />} />
       </Routes>
     </div>
