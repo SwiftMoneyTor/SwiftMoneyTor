@@ -1,0 +1,7 @@
+@media (max-width:414px) {
+    .login-image {
+        object-fit: contain;
+        height: 300px;
+        width: 200px;
+    }
+}

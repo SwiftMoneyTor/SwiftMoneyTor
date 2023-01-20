@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useAppStore from "../../appStore";
 import loginImg from '../../assets/Login.png';
 import Navigation from '../LandingPage/Navigation/Navigation';
+import './Login.css';
 const Login = () => {
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
     const setAuth = useAppStore(state => state.setAuth)
@@ -21,12 +22,13 @@ const Login = () => {
     }
     return (
         <>
+            <Navigation />
             <div className="container-fluid">
-                <Navigation />
+
                 <Container>
                     <Row className="align-items-center">
                         <Col>
-                            <Image src={loginImg} />
+                            <Image src={loginImg} className='login-image' />
                         </Col>
                         <Col>
                             <main className="form-signin m-auto">

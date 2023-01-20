@@ -5,6 +5,7 @@ import { MdDeleteSweep } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import signUpImg from '../../assets/signup.png';
 import Navigation from '../LandingPage/Navigation/Navigation';
+import './SignUp.css';
 const SignUp = () => {
     const navigate = useNavigate()
     const { handleSubmit, register, formState: { errors }, clearErrors } = useForm()
@@ -18,12 +19,12 @@ const SignUp = () => {
     }
     return (
         <>
+            <Navigation />
             <div className="container-fluid">
-                <Navigation />
                 <Container>
                     <Row className='align-items-center'>
                         <Col>
-                            <Image src={signUpImg} />
+                            <Image src={signUpImg} className='sign-up' />
                         </Col>
                         <Col>
                             <main className="form-signin m-auto">

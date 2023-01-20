@@ -81,7 +81,7 @@ const ContactUs = () => {
                         </form>
                     </Col>
                     <Col sm={true} className="d-flex flex-column align-items-center">
-                        <img src={contact} alt="contact us" className='send-a-mail' />
+                        <img src={contact} alt="contact us" className='send-a-mail img-fluid' />
                         <a href="https://storyset.com/business">Business illustrations by Storyset</a>
                     </Col>
                 </Row>
