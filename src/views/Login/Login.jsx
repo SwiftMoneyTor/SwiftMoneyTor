@@ -1,8 +1,11 @@
+import { Col, Container, Image, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { MdDeleteSweep } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import useAppStore from "../../appStore";
+import loginImg from '../../assets/Login.png';
 import Navigation from '../LandingPage/Navigation/Navigation';
+import './Login.css';
 const Login = () => {
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
     const setAuth = useAppStore(state => state.setAuth)
@@ -19,9 +22,16 @@ const Login = () => {
     }
     return (
         <>
+            <Navigation />
             <div className="container-fluid">
-                <Navigation />
-                <main className="form-signin m-auto">
+
+                <Container>
+                    <Row className="align-items-center">
+                        <Col>
+                            <Image src={loginImg} className='login-image' />
+                        </Col>
+                        <Col>
+                            <main className="form-signin m-auto">
                     <form action="" onSubmit={handleSubmit(handleSubmition)} className="d-flex flex-column gap-2">
                         <div className="d-flex gap-2 align-items-start flex-column">
                             <label htmlFor="email">Email</label>
@@ -49,6 +59,10 @@ const Login = () => {
                     </span>
                     <span className="mb-3 mb-md-0 text-muted">© {new Date().getFullYear()} SwiftMoneyTor Inc.</span>
                 </main>
+                        </Col>
+                    </Row>
+                </Container>
+
             </div>
         </>
 
