@@ -30,9 +30,9 @@ const Features = () => {
                     <p></p>
                 </div>
             </div>
-            <div className="pb-3">
+            {/* <div className="pb-3">
                 <a href="https://storyset.com/online" className="text-decoration-underline fst-italic">Online illustrations by Storyset</a>
-            </div>
+            </div> */}
 
         </div>
     )

@@ -13,6 +13,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  /* Dashboard Heaver Nav */
+
+  --mainColor: #518b37;
+  --secondaryColor: #f48f1b;
+  --dashboardFontColorBlack: rgb(104, 104, 104);
+
 }
 
 a {

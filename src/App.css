@@ -4,6 +4,8 @@
 font-family: 'Heebo', sans-serif;
 font-family: 'Nunito', sans-serif; */
 
+
+
  #root {
    width: 100%;
    height: 100vh;
@@ -46,3 +48,36 @@ font-family: 'Nunito', sans-serif; */
      height: 100px;
    }
  }
+
+ /* Dashboard Nav */
+
+ .bg-color{
+  background-color: var(--mainColor);
+}
+
+.profilePic{
+  border-radius: 50%;
+}
+
+@media (min-width: 768px){
+  .sideNav{
+    height: 100vh;
+  }
+}
+
+.dashContent{
+  background-color: #f2f2f2a6;
+}
+
+.sidebar {
+  position: fixed;
+  top: 4rem;
+  bottom: 0;
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+}
+
+.sideBarActive .active{
+  color: var(--mainColor) !important;
+}
