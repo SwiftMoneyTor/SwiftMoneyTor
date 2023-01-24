@@ -4,7 +4,7 @@ import { MdDeleteSweep } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import useAppStore from "../../appStore";
 import loginImg from '../../assets/Login.png';
-import Navigation from '../LandingPage/Navigation/Navigation';
+import Navigation from '../Template/Navigation/Navigation';
 import './Login.css';
 const Login = () => {
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();

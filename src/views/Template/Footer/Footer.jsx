@@ -1,6 +1,6 @@
 
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
-import useAppStore from '../../appStore';
+import useAppStore from '../../../appStore';
 
 const Footer = () => {
     const component = useAppStore(state => state.component)

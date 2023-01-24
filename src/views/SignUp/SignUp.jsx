@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { MdDeleteSweep } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import signUpImg from '../../assets/signup.png';
-import Navigation from '../LandingPage/Navigation/Navigation';
+import Navigation from '../Template/Navigation/Navigation';
 import './SignUp.css';
 const SignUp = () => {
     const navigate = useNavigate()
-    const { handleSubmit, register, formState: { errors }, clearErrors } = useForm()
+    const { handleSubmit, register, formState: { errors }, clearErrors, watch } = useForm()
+    const password = useRef({});
+    password.current = watch("password", "");
     const handleSubmition = (data) => {
         if (Object.keys(data).length > 0) {
-            navigate('/dashboard', { replace: true }, [navigate])
+            console.info(data)
+            console.error(errors)
+            // navigate('/dashboard', { replace: true }, [navigate])
         }
     }
     const handleClick = () => {
@@ -30,6 +34,13 @@ const SignUp = () => {
                             <main className="form-signin m-auto">
                                 <form action="" onSubmit={handleSubmit(handleSubmition)} className="d-flex flex-column gap-2">
                                     <div className="d-flex gap-2 align-items-start flex-column">
+                                        <label htmlFor="name">Full Name</label>
+                                        <input type="text" id="name" className={`${errors.name && `is-invalid`} form-control`}{...register("name", { required: true })} />
+                                        {errors.name && <span className="invalid-feedback">
+                                            Please enter full name
+                                        </span>}
+                                    </div>
+                                    <div className="d-flex gap-2 align-items-start flex-column">
                                         <label htmlFor="email">Email</label>
                                         <input type="email" id="email" className={`${errors.email && `is-invalid`} form-control`}{...register("email", { required: true })} />
                                         {errors.email && <span className="invalid-feedback">
@@ -41,6 +52,16 @@ const SignUp = () => {
                                         <input type="password" id="password" className={`${errors.password && `is-invalid`} form-control`} {...register("password", { required: true })} />
                                         {errors.password && <span className="invalid-feedback">
                                             Must type password
+                                        </span>}
+                                    </div>
+                                    <div className="d-flex gap-2 align-items-start flex-column">
+                                        <label htmlFor="confirm-password">Confirm Password</label>
+                                        <input type="password" id="confirm-password" className={`${errors.password && `is-invalid`} form-control`} {...register({
+                                            validate: value =>
+                                                value === password.current || "The passwords do not match"
+                                        })} />
+                                        {errors.confirmPassword && <span className="invalid-feedback">
+                                            Password does not match
                                         </span>}
                                     </div>
                                     <div className="pt-3">
