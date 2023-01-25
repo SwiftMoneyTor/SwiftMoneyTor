@@ -14,7 +14,6 @@ const SignUp = () => {
     const handleSubmition = (data) => {
         if (Object.keys(data).length > 0) {
             console.info(data)
-            console.error(errors)
             // navigate('/dashboard', { replace: true }, [navigate])
         }
     }
@@ -56,12 +55,12 @@ const SignUp = () => {
                                     </div>
                                     <div className="d-flex gap-2 align-items-start flex-column">
                                         <label htmlFor="confirm-password">Confirm Password</label>
-                                        <input type="password" id="confirm-password" className={`${errors.password && `is-invalid`} form-control`} {...register({
+                                        <input type="password" id="confirm-password" className={`${errors['confirm-password'] && `is-invalid`} form-control`} {...register('confirm-password',{
                                             validate: value =>
                                                 value === password.current || "The passwords do not match"
                                         })} />
-                                        {errors.confirmPassword && <span className="invalid-feedback">
-                                            Password does not match
+                                        {errors['confirm-password'] && <span className="invalid-feedback">
+                                            {errors['confirm-password'].message}
                                         </span>}
                                     </div>
                                     <div className="pt-3">
