@@ -3,8 +3,8 @@ import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import contact from '../../../assets/Contact us.gif'
-import Footer from '../../Footer/Footer'
-import Navigation from '../Navigation/Navigation'
+import Footer from '../../Template/Footer/Footer'
+import Navigation from '../../Template/Navigation/Navigation'
 import './ContactUs.css'
 
 const ContactUs = () => {

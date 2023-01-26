@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Image } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import errorImg from '../../assets/404 Error.gif'
-import Navigation from '../LandingPage/Navigation/Navigation'
+import Navigation from '../Template/Navigation/Navigation'
 
 const Error = () => {
     const navigate = useNavigate()
