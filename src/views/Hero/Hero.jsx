@@ -1,4 +1,10 @@
+<<<<<<< Updated upstream:src/views/Hero/Hero.jsx
 
+=======
+import { useNavigate } from 'react-router-dom'
+import React from 'react'
+import heroImage from '../../../assets/Cash Payment.gif'
+>>>>>>> Stashed changes:src/views/LandingPage/Hero/Hero.jsx
 const Hero = () => {
     const handleMouseOver = (event) => {
         let src = event.target.getAttribute('src')

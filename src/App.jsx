@@ -1,5 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+<<<<<<< Updated upstream
 import { React, useState } from 'react';
+=======
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+>>>>>>> Stashed changes
 import './App.css';
 import Container from './views/Container/Container';
 import Footer from './views/Footer/Footer';

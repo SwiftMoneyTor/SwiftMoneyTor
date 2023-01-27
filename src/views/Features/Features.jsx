@@ -1,3 +1,10 @@
+<<<<<<< Updated upstream:src/views/Features/Features.jsx
+=======
+import salesImage from '../../../assets/Data report.gif'
+import inventoryImage from '../../../assets/Report.gif'
+import SMEImage from '../../../assets/Street Food.gif'
+import React from 'react'
+>>>>>>> Stashed changes:src/views/LandingPage/Features/Features.jsx
 
 const Features = () => {
     const handleMouseOver = (event) => {
