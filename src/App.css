@@ -1,0 +1,64 @@
+ @import url('https://fonts.googleapis.com/css2?family=Heebo&family=Nunito&family=Raleway&display=swap');
+
+ /* 
+
+font-family: 'Heebo', sans-serif;
+font-family: 'Nunito',
+sans-serif;
+font-family: 'Raleway',
+sans-serif;
+*/
+
+ #root {
+   width: 100%;
+   height: 100vh;
+   text-align: center;
+ }
+
+ .navbar-nav>a {
+   font-family: 'Nunito', sans-serif;
+ }
+
+ h1 {
+  font-family: 'Raleway', sans-serif;
+    text-transform: uppercase !important;
+ }
+
+ h2,
+ h3,
+ h4,
+ h5,
+ button,
+ label {
+  font-family: 'Nunito', sans-serif !important;
+ }
+img {
+  object-fit: contain;
+}
+ .devices>.col>img {
+   height: 200px;
+ }
+
+ .form-signin {
+   max-width: 330px;
+   padding: 15px;
+ }
+
+ .login-footer {
+   margin-top: 35vh;
+ }
+
+ .activeDash {
+  color: #F38E18 !important;
+ }
+
+ p.MuiTablePagination-displayedRows.css-levciy-MuiTablePagination-displayedRows,
+ p.MuiTablePagination-selectLabel.css-pdct74-MuiTablePagination-selectLabel {
+   margin: 0 !important;
+ }
+
+ @media (max-width:375px) {
+   .devices>.col>img {
+     height: 100px;
+   }
+ }

@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Heebo&family=Nunito&family=Raleway&display=swap');
+
+.about-paragraph {
+    font-family: 'Nunito',
+        sans-serif !important;
+    text-align: justify;
+    text-justify: inter-word;
+    text-indent: 50px;
+}
