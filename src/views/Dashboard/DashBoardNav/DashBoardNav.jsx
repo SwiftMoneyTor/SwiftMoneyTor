@@ -8,6 +8,7 @@ import useAppStore from "../../../appStore";
 import LOGO from '../../../assets/logo.png';
 import './DashBoardNav.css'
 import {AiOutlineSetting, AiOutlineExport} from 'react-icons/ai'
+import defaultPic from '../../../assets/dashboard/avatar.png'
 
 const DashBoardNav = () => {
     const setActive = useAppStore(state => state.setActiveDash)
@@ -74,7 +75,7 @@ const DashBoardNav = () => {
                         <NavDropdown title="Email Address" id="collasible-nav-dropdown">
                                 <Nav className="mx-auto">
                                     <Nav.Item className='profilePic mx-auto mt-2'>
-                                        <img src='/public/profilePic/avatar.png'/>
+                                        <img src={defaultPic}/>
                                     </Nav.Item>
                                 </Nav>
                                 <Nav className="mx-auto">
