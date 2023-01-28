@@ -1,0 +1,13 @@
+.profilePic img{
+    width: 40px;
+}
+
+.profilePic:hover{
+    cursor:context-menu;
+    background-color: transparent;
+}
+
+.noHover:hover{
+    cursor:context-menu;
+    background-color: transparent;
+}
