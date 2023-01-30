@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { MdDeleteSweep } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import useAppStore from "../../appStore";
-import loginImg from '../../assets/Login.png';
 import loginImgLg from '../../assets/Login-lg.png';
 import Navigation from '../Template/Navigation/Navigation';
 import './Login.css';
