@@ -25,12 +25,12 @@ const SignUp = () => {
             <Navigation />
             <div className="container-fluid">
                 <Container>
-                    <Row className='align-items-center'>
-                        <Col>
+                    <Row className='align-items-center mt-5'>
+                        <Col className='d-none d-lg-inline-block'>
                             <Image src={signUpImg} className='sign-up' />
                         </Col>
                         <Col>
-                            <main className="form-signin m-auto">
+                            <main className="sign-up m-auto col-8">
                                 <form action="" onSubmit={handleSubmit(handleSubmition)} className="d-flex flex-column gap-2">
                                     <div className="d-flex gap-2 align-items-start flex-column">
                                         <label htmlFor="name">Full Name</label>

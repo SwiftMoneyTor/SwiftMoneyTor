@@ -2,11 +2,13 @@ import { Image, NavDropdown } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { AiOutlineExport, AiOutlineSetting } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAppStore from "../../../appStore";
+import defaultPic from '../../../assets/dashboard/avatar.png';
 import LOGO from '../../../assets/logo.png';
-
+import './DashBoardNav.css';
 
 const DashBoardNav = () => {
     const setActive = useAppStore(state => state.setActiveDash)
@@ -43,9 +45,12 @@ const DashBoardNav = () => {
                     }
                 })
             }
+            else{
+                window.history.back()
+            }
         })
     }
-    const navObject = ['dashboard', 'inventory', 'reports', 'accounts']
+    const navObject = ['dashboard', 'inventory', 'reports']
 
     return (
         <Navbar bg="light" expand="lg">
@@ -65,25 +70,37 @@ const DashBoardNav = () => {
                                 </Link>
                             )
                         })}
-                        <Link to="/logout" className={`${activeDashboard == "logout" ? `activeDash` : ``} nav-link`} onClick={handleLogout}>
-                            Logout
-                        </Link>
                     </Nav>
                     <Nav>
-                        <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
+                        <NavDropdown title="Email Address" id="collasible-nav-dropdown">
+                                <Nav className="mx-auto">
+                                    <Nav.Item className='profilePic mx-auto mt-2'>
+                                        <img src={defaultPic}/>
+                                    </Nav.Item>
+                                </Nav>
+                                <Nav className="mx-auto">
+                                    <Nav.Item className="nav-item noHOver mx-auto">
+                                        <span className='profilePic nav-link'>Company</span>
+                                    </Nav.Item>
+                                </Nav>
+                                <Nav className="mx-auto">
+                                    <Nav.Item className="nav-item">
+                                        <Link to="/accounts" className='nav-link ms-2' onClick={handleClick} data-dashnav='accounts'>
+                                            <AiOutlineSetting className='me-2 mb-1' />Account
+                                        </Link> 
+                                    </Nav.Item>
+                                </Nav>
+                                <NavDropdown.Divider />
+                                <Nav className="mx-auto">
+                                    <Nav.Item className="nav-item">
+                                        <Link to="/logout" className={`${activeDashboard == "logout" ? `activeDash` : ``} nav-link ms-2`} onClick={handleLogout}>
+                                            <AiOutlineExport className='me-2 mb-1'/>Logout
+                                        </Link>
+                                    </Nav.Item>
+                                </Nav>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
-
             </Container>
         </Navbar>
 

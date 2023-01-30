@@ -5,3 +5,25 @@
         width: 200px;
     }
 }
+
+@media (max-width: 767px){
+    .form-signin{
+        background-image:url('../../assets/Login.png');
+        background-repeat: no-repeat;
+        background-position:inherit;
+        background-size: contain;
+        height: 100vh;
+    }
+    .form-signin form{
+        padding-top: 140px;
+        width: max-content;
+    }
+
+    .mobileDarkBg{
+        background-color: rgba(57, 57, 57, 0.742);
+        color: aliceblue;
+    }
+    .btn-link{
+        color:rgb(63, 198, 255);
+    }
+}
