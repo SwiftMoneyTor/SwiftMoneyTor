@@ -85,7 +85,7 @@ const DashBoardNav = () => {
                                 </Nav>
                                 <Nav className="mx-auto">
                                     <Nav.Item className="nav-item">
-                                        <Link to="/accounts" className='nav-link ms-2' onClick={handleClick} data-dashnav='accounts'>
+                                        <Link to="/account" className='nav-link ms-2' onClick={handleClick} data-dashnav='account'>
                                             <AiOutlineSetting className='me-2 mb-1' />Account
                                         </Link> 
                                     </Nav.Item>
