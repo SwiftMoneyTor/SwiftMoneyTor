@@ -2,13 +2,13 @@ import { Image, NavDropdown } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link, Route, useNavigate } from 'react-router-dom';
+import { AiOutlineExport, AiOutlineSetting } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAppStore from "../../../appStore";
+import defaultPic from '../../../assets/dashboard/avatar.png';
 import LOGO from '../../../assets/logo.png';
-import './DashBoardNav.css'
-import {AiOutlineSetting, AiOutlineExport} from 'react-icons/ai'
-import defaultPic from '../../../assets/dashboard/avatar.png'
+import './DashBoardNav.css';
 
 const DashBoardNav = () => {
     const setActive = useAppStore(state => state.setActiveDash)
