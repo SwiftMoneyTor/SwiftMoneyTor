@@ -1,8 +1,8 @@
-.profilePic img{
+.profilePic-nav img{
     width: 40px;
 }
 
-.profilePic:hover{
+.profilePic-nav:hover{
     cursor:context-menu;
     background-color: transparent;
 }

@@ -7,7 +7,7 @@ import Reports from "../Reports/Reports"
 const Main = () => {
     const activeTitle = useAppStore(state => state.activeDash)
     return (
-        <div className="p-3">
+        <div className="p-3 mt-4">
             <h1>
                 {activeTitle && activeTitle.split('_')[0]}
             </h1>
