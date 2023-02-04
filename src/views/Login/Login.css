@@ -10,9 +10,9 @@
     .form-signin{
         background-image:url('../../assets/Login.png');
         background-repeat: no-repeat;
-        background-position:inherit;
-        background-size: contain;
-        height: 100vh;
+        background-position: center clip;
+        background-size: cover;
+        height: 640px;
     }
     .form-signin form{
         padding-top: 140px;

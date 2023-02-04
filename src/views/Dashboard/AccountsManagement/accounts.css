@@ -1,0 +1,57 @@
+.accLink a{
+    color: var(--colorThree) !important;
+}
+.accLink a:hover{
+    color: var(--colorTwo) !important;
+    transition: .6s;
+}
+.profilePic-account{
+    border-radius: 50%;
+    position: relative;
+}
+
+.profilePic-account img{
+    width: 98%;
+}
+
+.uploadButton{
+    opacity: 0;
+    position: absolute;
+    bottom: 10px;
+    left:35px;
+}
+
+.uploadButton span{
+    background-color: var(--colorOne);
+    border-radius: 50%;
+    padding: 5px 10px 5px 10px;
+}
+
+.profilePic-account:hover .uploadButton{
+    opacity: 1;
+    transition: .5s;
+    color: var(--colorThree);
+}
+
+.rightPane input[type="text"] {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.saveEdit:hover{
+    color: green;
+}
+
+.editSave:hover{
+    color: red;
+}
+
+.editToSave{
+    cursor: pointer;
+}
+
+.displayNone{
+    display: none;
+}
+
