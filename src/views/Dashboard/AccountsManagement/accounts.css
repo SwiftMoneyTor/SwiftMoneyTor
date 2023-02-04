@@ -38,3 +38,20 @@
     margin: 0 auto;
     text-align: center;
 }
+
+.saveEdit:hover{
+    color: green;
+}
+
+.editSave:hover{
+    color: red;
+}
+
+.editToSave{
+    cursor: pointer;
+}
+
+.displayNone{
+    display: none;
+}
+
