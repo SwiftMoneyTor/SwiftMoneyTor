@@ -1,20 +1,42 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { MdDeleteSweep } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import signUpImg from '../../assets/signup.png';
+import FetchAPI from '../../utils/API/Fetch/FetchAPI';
 import Navigation from '../Template/Navigation/Navigation';
+
 import './SignUp.css';
 const SignUp = () => {
     const navigate = useNavigate()
-    const { handleSubmit, register, formState: { errors }, clearErrors, watch } = useForm()
+    const { handleSubmit, register, formState, formState: { errors, isSubmitSuccessful }, clearErrors, watch, reset } = useForm()
     const password = useRef({});
+    const [formReset, setFormReset] = useState(false)
     password.current = watch("password", "");
+    useEffect(() => {
+        reset()
+    }, [formReset])
     const handleSubmition = (data) => {
         if (Object.keys(data).length > 0) {
-            console.info(data)
-            // navigate('/dashboard', { replace: true }, [navigate])
+            const { name, email, password } = data
+            const DataProcessing = async () => {
+                let response = await FetchAPI('http://127.0.0.1:8000/api/auth/register', {
+                    name, email, password
+                }, 'POST')
+                if (response)
+                    Swal.fire({ title: "Success", text: "Registration Successful", icon: "success", confirmButtonColor: '#53893D' })
+                        .then(result => {
+                            if (result.isConfirmed) {
+                                navigate('/login', { replace: true }, [navigate])
+                                setFormReset(prevFormReset => !prevFormReset)
+                            }
+                        })
+            }
+            DataProcessing()
+
+
         }
     }
     const handleClick = () => {
@@ -55,7 +77,7 @@ const SignUp = () => {
                                     </div>
                                     <div className="d-flex gap-2 align-items-start flex-column">
                                         <label htmlFor="confirm-password">Confirm Password</label>
-                                        <input type="password" id="confirm-password" className={`${errors['confirm-password'] && `is-invalid`} form-control`} {...register('confirm-password',{
+                                        <input type="password" id="confirm-password" className={`${errors['confirm-password'] && `is-invalid`} form-control`} {...register('confirm-password', {
                                             validate: value =>
                                                 value === password.current || "The passwords do not match"
                                         })} />
