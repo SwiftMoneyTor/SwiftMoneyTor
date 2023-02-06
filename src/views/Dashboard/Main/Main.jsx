@@ -8,7 +8,7 @@ const Main = () => {
     return (
         <div className="p-3 mt-4">
             <h1>
-                {activeTitle}
+                {activeTitle != 'dashboard' ? activeTitle && activeTitle.split('_')[0] : 'OverView'}
             </h1>
             {activeTitle == 'dashboard' && <MainDashBoard />}
             {activeTitle == 'inventory' && <Inventory />}
