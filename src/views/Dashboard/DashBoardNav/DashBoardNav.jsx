@@ -15,6 +15,7 @@ const DashBoardNav = () => {
     const activeDashboard = useAppStore(state => state.activeDash)
     const setComponent = useAppStore(state => state.setComponent)
     const setAuth = useAppStore(state => state.setAuth)
+    // const ProfilePic = useAppStore(state => state.setProfilePic)
     const navigate = useNavigate()
     const handleClick = (event) => {
         setActive(event.target.getAttribute('data-dashnav'))
@@ -74,13 +75,13 @@ const DashBoardNav = () => {
                     <Nav>
                         <NavDropdown title="Email Address" id="collasible-nav-dropdown">
                                 <Nav className="mx-auto">
-                                    <Nav.Item className='profilePic mx-auto mt-2'>
-                                        <img src={defaultPic}/>
+                                    <Nav.Item className='profilePic-nav mx-auto mt-2'>
+                                        <Image src={defaultPic} />
                                     </Nav.Item>
                                 </Nav>
                                 <Nav className="mx-auto">
                                     <Nav.Item className="nav-item noHOver mx-auto">
-                                        <span className='profilePic nav-link'>Company</span>
+                                        <span className='profilePic-nav nav-link'>Company</span>
                                     </Nav.Item>
                                 </Nav>
                                 <Nav className="mx-auto">
