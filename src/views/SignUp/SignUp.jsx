@@ -22,7 +22,7 @@ const SignUp = () => {
         if (Object.keys(data).length > 0) {
             const { name, email, password } = data
             const DataProcessing = async () => {
-                let response = await FetchAPI('http://127.0.0.1:8000/api/auth/register', {
+                let response = await FetchAPI('api/auth/register', {
                     name, email, password
                 }, 'POST')
                 if (response)

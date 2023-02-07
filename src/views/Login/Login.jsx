@@ -21,7 +21,7 @@ const Login = () => {
 
             const DataProcessing = async () => {
                 let response = await
-                    FetchAPI('http://127.0.0.1:8000/api/auth/login', {
+                    FetchAPI('api/auth/login', {
                         "email": data.email,
                         "password": data.password
                     }, 'POST')
