@@ -2,24 +2,48 @@ import { NavLink } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import './accounts.css';
 // import useAppStore from "../../../appStore";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ProfileForm from './accountsComponent/profileForm';
 import EditProfileForm from './accountsComponent/editProfileForm';
 import AccSettings from './accountsComponent/accSettings';
 import AccHelp from './accountsComponent/accHelp';
 import AccProfileUpload from './accountsComponent/accProfileUpload';
 import {AiOutlineUpload} from 'react-icons/ai';
-import useFetch from './useFetch';
+import defaultPic from '../../../assets/dashboard/avatar.png';
+import { json } from 'react-router-dom';
 
 const AccountsManagement = () => {
 
     const getUrl = 'http://localhost:8000/api/profile/?accounts_id=1';
-    const { data, loading, error} = useFetch(getUrl)
+    // const { data, loading, error} = useFetch(getUrl)
+
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    useEffect(() =>{
+        setLoading(true);
+            fetch(getUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(profileData => {
+                setData(profileData)
+                console.log(data)
+            })
+            .catch(err => {
+                setError(err)
+                console.error(err)
+            });
+    }, [])
 
     const [ profileInfo, setProfileInfo] = React.useState();
     const [editInfo, setEditInfo] = React.useState(true)
 
-    console.log(error)
+    console.log(data)
     const clickToEdit = (event)=> {
         setEditInfo((oldstate)=> oldstate = !oldstate)
     };
