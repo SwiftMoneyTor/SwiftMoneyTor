@@ -1,8 +1,7 @@
-import { NavLink, Image } from 'react-bootstrap';
+import { NavLink } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import './accounts.css';
 // import useAppStore from "../../../appStore";
-import defaultPic from '../../../assets/dashboard/avatar.png';
 import React from 'react';
 import ProfileForm from './accountsComponent/profileForm';
 import EditProfileForm from './accountsComponent/editProfileForm';
@@ -47,9 +46,9 @@ const AccountsManagement = () => {
 
     const [links, setLinks] = React.useState('Profile')
 
-    const accLink = (event) =>{
-        const { id, innerHTML} = event.target
-        id !='Upload' ? setLinks((link)=> link = innerHTML) : setLinks((link)=> link = id)
+    const accLink = (event) => {
+        const { id, innerHTML } = event.target
+        id != 'Upload' ? setLinks((link) => link = innerHTML) : setLinks((link) => link = id)
     }
 
     return (
@@ -57,9 +56,9 @@ const AccountsManagement = () => {
             <div className="row d-flex justify-content-center">
                 <div className="col-4 col-lg-6 col-xl-2 d-flex flex-column align-content-center py-5 leftPane">
                     <div className="profilePic-account pb-2">
-                        <img src={`${defaultPic}`}/>
+                        <img src={`${defaultPic}`} />
                         <div className='uploadButton col-auto w-100'>
-                            <span className='fs-3' style={{cursor: 'pointer'}}><AiOutlineUpload title='Upload' className='mb-2' id='Upload' onClick={accLink}/></span>
+                            <span className='fs-3' style={{ cursor: 'pointer' }}><AiOutlineUpload title='Upload' className='mb-2' id='Upload' onClick={accLink} /></span>
                         </div>
                     </div>
                     <div className=''>
@@ -86,7 +85,6 @@ const AccountsManagement = () => {
                                                     editInfo={editInfo} 
                                                     toClick={ clickToEdit }
                                                     profileInfo={profileInfo}
-                                                    submit={clickToSave}
                                                 />
                     }
                     {

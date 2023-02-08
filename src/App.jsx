@@ -19,7 +19,7 @@ function App() {
           <Route path='/dashboard' element={<DashContainer />} />
           <Route path='/inventory' element={<DashContainer />} />
           <Route path='/reports' element={<DashContainer />} />
-          <Route path='/accounts' element={<DashContainer />} />
+          <Route path='/account' element={<DashContainer />} />
           <Route path='/logout' element={<DashContainer />} />
         </Route>
         <Route path='/sign-up' element={<SignUp />} />
