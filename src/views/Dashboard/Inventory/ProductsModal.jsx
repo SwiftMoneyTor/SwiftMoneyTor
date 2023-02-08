@@ -1,14 +1,13 @@
 import { Button, FormControl, MenuItem, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { useState } from 'react';
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 
-const InventoryModal = () => {
+const ProductsModal = () => {
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm()
     const [show, setShow] = useState(false);
-    const [category, setCategory] = useState(1)
-    const [product, setProduct] = useState(1)
+    const [select, setSelect] = useState(1)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleSubmition = (data) => {
@@ -20,50 +19,36 @@ const InventoryModal = () => {
         { name: 'Category 3', id: 3 },
         { name: 'Category 4', id: 4 }
     ]
-    const products = [
-        { name: 'Prod 1' },
-        { name: 'Prod 2' },
-        { name: 'Prod 3' },
-        { name: 'Prod 4' },
-        { name: 'Prod 5' },
-        { name: 'Prod 6' },
-    ]
-    const handleChangeCategory = (e) => {
-        setCategory(e.target.value)
-    }
-    const handleChangeProduct = (e) => {
-        setProduct(e.target.value)
+    const handleChange = (e) => {
+        setSelect(e.target.value)
     }
     return (<>
+        
         <Button variant="contained" onClick={handleShow} color="success">
-            Add inventory
+            Add Product
         </Button>
 
         <Modal show={show} onHide={handleClose} size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
             <Modal.Header closeButton>
-                <Modal.Title>Add Inventory Item</Modal.Title>
+                <Modal.Title>Add Product</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleSubmit(handleSubmition)}>
                     <Stack spacing={2}>
                         <FormControl variant="outlined">
-                            <TextField label="Category" select value={category} name="category" {...register('category', { onChange: handleChangeCategory })}>
+                            <TextField label="Category" select value={select} name="category" {...register('category', { onChange: handleChange })}>
                                 {categories.map(category => (<MenuItem key={category.id} value={category.id}>
                                     {category.name}
                                 </MenuItem>))}
                             </TextField>
                         </FormControl>
                         <FormControl variant="outlined">
-                            <TextField label="Item Name" select value={product} name="item_id" {...register('item_id', { onChange: handleChangeProduct })}>
-                                {products.map((product, i) => (<MenuItem key={i} value={i}>
-                                    {product.name}
-                                </MenuItem>))}
-                            </TextField>
+                            <TextField label="Product Name" {...register('product_name')} />
                         </FormControl>
                         <FormControl variant="outlined">
-                            <TextField label="Item Quantity" {...register('item_quantity')} />
+                            <TextField label="Image" {...register('product_image')} />
                         </FormControl>
                         <Stack spacing={1} direction="row" justifyContent="flex-end">
                             <Button variant="contained" onClick={handleClose} color="warning" type="button">
@@ -78,8 +63,7 @@ const InventoryModal = () => {
                 </form>
             </Modal.Body>
         </Modal>
-    </>
-    )
+    </>)
 }
 
-export default InventoryModal
+export default ProductsModal
