@@ -5,46 +5,44 @@ import './accounts.css';
 import defaultPic from '../../../assets/dashboard/avatar.png';
 import React from 'react';
 import ProfileForm from './accountsComponent/profileForm';
+import EditProfileForm from './accountsComponent/editProfileForm';
 import AccSettings from './accountsComponent/accSettings';
 import AccHelp from './accountsComponent/accHelp';
 import AccProfileUpload from './accountsComponent/accProfileUpload';
-import {AiOutlineUpload, AiOutlineForm, AiOutlineSave} from 'react-icons/ai';
-
+import {AiOutlineUpload} from 'react-icons/ai';
+import useFetch from './useFetch';
 
 const AccountsManagement = () => {
 
-    // const profilepic = useAppStore(state => state.setProfilePic)
-    const [profileInfo, setProfileInfo] = React.useState({
-        firstName : 'Whistner',
-        lastName : 'Rojas',
-        bDay: '1992/01/10',
-        lotNum : 2,
-        street: 'Bulusan',
-        brgy: 'Paang Bundok',
-        city: 'Quezon City',
-        zipCode: 1114,
-        email: 'whistner@gmail.com',
-        password: '123alpha',
-        profilePic: 'default',
-    });
+    const getUrl = 'http://localhost:8000/api/profile/?accounts_id=1';
+    const { data, loading, error} = useFetch(getUrl)
 
+    const [ profileInfo, setProfileInfo] = React.useState();
     const [editInfo, setEditInfo] = React.useState(true)
 
+    console.log(error)
     const clickToEdit = (event)=> {
         setEditInfo((oldstate)=> oldstate = !oldstate)
     };
 
-    const clickToSave = (event)=>{
-        event.preventDefault()
-        clickToEdit()
-    };
-
-    const handleChange = (event) => {
-        const {name, value} = event.target
-        setProfileInfo((prevInfo)=> ({
-            ...prevInfo,
-            [name] : value
-        }))
+    const profile = () =>{
+        if(editInfo === true){
+            return (
+                <ProfileForm 
+                    editInfo={editInfo} 
+                    toClick={clickToEdit}
+                    profileInfo={profileInfo} 
+                />
+            )
+        }else{
+            return (
+                <EditProfileForm 
+                    editInfo={editInfo} 
+                    toClick={clickToEdit}
+                    profileInfo={profileInfo}
+                />
+            )
+        }
     }
 
     const [links, setLinks] = React.useState('Profile')
@@ -81,21 +79,14 @@ const AccountsManagement = () => {
                 <div className="col-8 col-lg-6 d-flex py-md-5 py-sm-2 flex-column justify-content-center rightPane">
 
                     {
-                        links === 'Profile' && <ProfileForm 
-                                                    editInfo={editInfo} 
-                                                    toClick={editInfo === true ? clickToEdit : clickToSave}
-                                                    profileInfo={profileInfo}
-                                                    submit={clickToSave}
-                                                    onChange={handleChange}
-                                                />
+                        links === 'Profile' && profile()
                     }
                     {
                         links === 'Account' && <AccSettings 
                                                     editInfo={editInfo} 
-                                                    toClick={editInfo === true ? clickToEdit : clickToSave}
+                                                    toClick={ clickToEdit }
                                                     profileInfo={profileInfo}
                                                     submit={clickToSave}
-                                                    onChange={handleChange}
                                                 />
                     }
                     {
