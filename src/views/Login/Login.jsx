@@ -21,7 +21,7 @@ const Login = () => {
 
             const DataProcessing = async () => {
                 let response = await
-                    FetchAPI('api/auth/login', {
+                    FetchAPI('auth/login', {
                         "email": data.email,
                         "password": data.password
                     }, 'POST')
