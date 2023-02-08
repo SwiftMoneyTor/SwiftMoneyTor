@@ -15,6 +15,7 @@ const DashBoardNav = () => {
     const activeDashboard = useAppStore(state => state.activeDash)
     const setComponent = useAppStore(state => state.setComponent)
     const setAuth = useAppStore(state => state.setAuth)
+    const credentials = useAppStore(state=>state.credentials)
     // const ProfilePic = useAppStore(state => state.setProfilePic)
     const navigate = useNavigate()
     const handleClick = (event) => {
@@ -73,7 +74,7 @@ const DashBoardNav = () => {
                         })}
                     </Nav>
                     <Nav>
-                        <NavDropdown title="Email Address" id="collasible-nav-dropdown">
+                        <NavDropdown title={credentials.email} id="collasible-nav-dropdown">
                                 <Nav className="mx-auto">
                                     <Nav.Item className='profilePic-nav mx-auto mt-2'>
                                         <Image src={defaultPic} />

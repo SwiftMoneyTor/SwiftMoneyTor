@@ -1,8 +1,9 @@
 
 
 const FetchAPI = async (url, data = {}, method = 'POST') => {
+    let path = location.host === 'www.swiftmoneytorph.netlify.app' ? '/api-path' : 'http://ec2-54-169-139-199.ap-southeast-1.compute.amazonaws.com'
     try {
-        let response = await fetch(`http://ec2-13-213-62-166.ap-southeast-1.compute.amazonaws.com/${url}`, {
+        let response = await fetch(`${path}/${url}`, {
             method,
             body: JSON.stringify(data),
             headers: {
