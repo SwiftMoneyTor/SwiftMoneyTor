@@ -10,6 +10,8 @@ const ProductsModal = () => {
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm()
     const credentials = useAppStore(state => state.credentials)
     const [show, setShow] = useState(false);
+    const [image, setImage] = useState('');
+    const [isUploaded, setIsUploaded] = useState(false);
     const [select, setSelect] = useState(1)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -17,6 +19,7 @@ const ProductsModal = () => {
         const formData = new FormData()
         formData.append('product_image', data.product_image[0])
         formData.append('product_name', data.product_name)
+        formData.append('product_price', data.product_price)
         formData.append('category_id', data.category)
         FetchWithFormData(credentials.token, formData)
     }
@@ -28,6 +31,11 @@ const ProductsModal = () => {
     ]
     const handleChange = (e) => {
         setSelect(e.target.value)
+    }
+    const HandleChangeImage = (e) => {
+        console.log(e.target.files[0])
+        setImage(URL.createObjectURL(e.target.files[0]))
+        setIsUploaded(true)
     }
     return (<>
 
@@ -57,8 +65,14 @@ const ProductsModal = () => {
                         <FormControl variant="outlined">
                             <Button variant="contained" color="success" component="label">
                                 Upload
-                                <input accept="image/*" hidden type="file" {...register('product_image')} />
+                                <input accept="image/*" hidden type="file" {...register('product_image', { onChange: HandleChangeImage })} />
                             </Button>
+                        </FormControl>
+                        {isUploaded && <FormControl variant="outlined">
+                            <img src={image ?? ''}  height={150}/>
+                        </FormControl>}
+                        <FormControl variant="outlined">
+                            <TextField label="Product Price" {...register('product_price')} />
                         </FormControl>
                         <Stack spacing={1} direction="row" justifyContent="flex-end">
                             <Button variant="contained" onClick={handleClose} color="warning" type="button">
