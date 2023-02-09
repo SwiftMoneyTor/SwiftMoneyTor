@@ -1,12 +1,16 @@
 import { Badge, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, FilledInput, FormControl, Grid, IconButton, InputAdornment, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { RiShoppingBasket2Line } from 'react-icons/ri';
+import useAppStore from '../../../appStore';
+import FetchWithoutBody from '../../../utils/API/Fetch/FetchWithoutBody';
 
 const TransactionsModal = () => {
+    const credentials = useAppStore(state => state.credentials)
     const [cart, setCart] = useState([]);
     const [show, setShow] = useState(false);
+    const [cards, setCards] = useState([]);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleClick = () => { console.log('test') };
@@ -14,7 +18,15 @@ const TransactionsModal = () => {
         setCart(prevCart => [...prevCart, JSON.parse(e.target.getAttribute('data-value'))])
         console.log(cart.length)
     }
-    const cards = [
+    useEffect(() => {
+        const processor = async () => {
+            return await FetchWithoutBody('products/fetch', credentials.token)
+        }
+        let data = processor()
+        console.log(data)
+    }, [show])
+    console.log(cards)
+    const tempCards = [
         { image: 'image1', product_name: 'Product 1', amount: 100 },
         { image: 'image2', product_name: 'Product 2', amount: 200 },
         { image: 'image3', product_name: 'Product 3', amount: 300 },
@@ -69,7 +81,7 @@ const TransactionsModal = () => {
                     <Box style={{ maxHeight: '100vh', overflow: 'auto' }}>
                         <Grid container spacing={2} sx={{ padding: '10px' }}>
                             {
-                                cards.map((card, i) => {
+                                tempCards.map((card, i) => {
                                     card['key'] = i
                                     let updatedCard = card
                                     return (
