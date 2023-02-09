@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, FilledInput, FormControl, Grid, IconButton, InputAdornment, Typography } from '@mui/material';
+import { Badge, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, FilledInput, FormControl, Grid, IconButton, InputAdornment, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -19,24 +19,12 @@ const TransactionsModal = () => {
         console.log(cart.length)
     }
     useEffect(() => {
-        const processor = async () => {
-            return await FetchWithoutBody('products/fetch', credentials.token)
+        const processor = () => {
+            FetchWithoutBody('products/fetch', credentials.token).then(res =>
+                setCards(res.responsedata))
         }
-        let data = processor()
-        console.log(data)
+        processor()
     }, [show])
-    console.log(cards)
-    const tempCards = [
-        { image: 'image1', product_name: 'Product 1', amount: 100 },
-        { image: 'image2', product_name: 'Product 2', amount: 200 },
-        { image: 'image3', product_name: 'Product 3', amount: 300 },
-        { image: 'image4', product_name: 'Product 4', amount: 400 },
-        { image: 'image5', product_name: 'Product 5', amount: 500 },
-        { image: 'image6', product_name: 'Product 6', amount: 600 },
-        { image: 'image7', product_name: 'Product 7', amount: 700 },
-        { image: 'image8', product_name: 'Product 8', amount: 800 },
-        { image: 'image9', product_name: 'Product 9', amount: 900 },
-    ]
     return (
         <>
             <Button variant="outlined" onClick={handleShow} color="success">
@@ -81,7 +69,7 @@ const TransactionsModal = () => {
                     <Box style={{ maxHeight: '100vh', overflow: 'auto' }}>
                         <Grid container spacing={2} sx={{ padding: '10px' }}>
                             {
-                                tempCards.map((card, i) => {
+                                cards.map((card, i) => {
                                     card['key'] = i
                                     let updatedCard = card
                                     return (
@@ -91,13 +79,19 @@ const TransactionsModal = () => {
                                                     <CardMedia
                                                         component="img"
                                                         height="140"
-                                                        image="https://via.placeholder.com/300.png/53893D/fff"
+                                                        image={card.product_image}
                                                         alt={`card${i}`}
                                                     />
                                                     <CardContent>
-                                                        <Typography gutterBottom variant="h5" component="div">
-                                                            {card.product_name}
-                                                        </Typography>
+                                                        <Stack direction="row" justifyContent="space-between">
+                                                            <Typography gutterBottom variant="h5" component="div">
+                                                                {card.product_name}
+                                                            </Typography>
+                                                            <Typography gutterBottom variant="h5" component="div">
+                                                                {`₱${card.product_price}`}
+                                                            </Typography>
+                                                        </Stack>
+
                                                     </CardContent>
                                                 </CardActionArea>
                                                 <CardActions>
