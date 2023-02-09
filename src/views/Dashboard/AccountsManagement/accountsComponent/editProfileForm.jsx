@@ -1,14 +1,30 @@
 import { useForm } from 'react-hook-form';
-
+import { useState } from 'react'; 
 
 export default function editProfileForm(props){
 
-    const {firstName, lastName, bDay, gender, lotNum, street, brgy, city, zipCode} = props.profileInfo
+    const {profile_id, firstName, lastName, bDay, gender, lotNum, street, brgy, city, zipCode} = props.profileInfo
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+
+    const onSubmit = data => {
+            fetch('http://localhost:8000/api/updateProfile/?users_id=1', { //to add dynamic id
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(res => {
+            console.log(res)
+            props.toClick(res)
+        })
+        .catch(error => console.error(error));
+    };
 
     return(
         <form onSubmit={handleSubmit(onSubmit)} method="POST" className='col-md-12 col-lg-10 col-xl-12 my-4'>
+            <input type="text" defaultValue={profile_id} {...register("profile_id")} hidden/>
             <div className="input-group mb-3">
                 <span className="input-group-text">First name</span>
                 <input 
@@ -44,9 +60,9 @@ export default function editProfileForm(props){
                 defaultValue={gender}
                 {...register("gender", {required: true})} 
                 >
-                    {gender == '' ? <option selected>Choose...</option> : <option>Choose...</option>}
-                    {gender == 'M' ? <option value="M" selected>Male</option> : <option value="M">Male</option>}
-                    {gender == 'F' ? <option value="F" selected>Female</option> : <option value="F">Female</option>}
+                    <option>Choose...</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
                 </select>
             </div>
             <div className="row">

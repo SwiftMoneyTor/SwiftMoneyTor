@@ -7,37 +7,23 @@ function useFetch(url){
     const [error, setError] = useState(null);
 
     useEffect(() =>{
-        setLoading(true);
-            const fetchData = async () => {
-                try {
-                const response = await fetch(url, {
-                    headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": ""
-                    }
-                });
-                const json = await response.json();
-                console.log(json)
-                setData(json);
-                } catch (error) {
-                setError(error);
-                console.log(error)
-                } finally {
-                setLoading(false);
-                }
-            };
-        
-            fetchData();
-        //     .then(response => {
-        //     setData(noData => response.data)
-        //     console.log('response', response.data)
-        // }).catch((e)=>{
-        //     setError(e)
-        //     console.log('error', e)
-        // }).finally(()=>{
-        //     setLoading(false)
-        // })
-    }, [])
+        fetch(getUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(profileData => {
+            setData(noData => ({...profileData}))
+            setLoading(false)
+            console.log(data)
+        })
+        .catch(err => {
+            setError(err)
+            console.error(err)
+        });
+}, [])
 
     return {
         data, loading, error

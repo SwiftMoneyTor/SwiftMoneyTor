@@ -25,11 +25,11 @@ const Login = () => {
                         "email": data.email,
                         "password": data.password
                     }, 'POST')
-                let creds = { ...credentials, token: response.authorization.token, name: response.user.name, email: response.user.email }
+                    console.log(response)
+                let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email }
                 setCredentials(creds)
             }
             DataProcessing()
-
             if (Object.values(credentials).length > 0)
                 navigate('/dashboard', { replace: true }, [navigate])
         }

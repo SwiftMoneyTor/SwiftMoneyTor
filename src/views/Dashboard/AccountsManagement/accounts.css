@@ -46,3 +46,7 @@
 .editSave:hover{
     color: red;
 }
+
+.borderHeight{
+    min-height: 560px;
+}

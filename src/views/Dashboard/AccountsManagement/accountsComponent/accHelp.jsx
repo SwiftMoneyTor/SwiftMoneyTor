@@ -1,12 +1,19 @@
 import { FormHelperText, TextField } from '@mui/material'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
+import emailjs from '@emailjs/browser';
 
 const ContactUs = () => {
     const { register, formState: { errors }, handleSubmit, clearErrors } = useForm()
+    const form = useRef();
     const handleSubmition = (data) => {
-        console.log(data)
+        emailjs.sendForm('service_dx8yzg3', 'template_x8ft2k3', form.current, 'yesI1Hod8Cx22taJ8')
+        .then((result) => {
+            console.log(result.text);
+        }, (error) => {
+            console.log(error.text);
+        });
     }
     return (
         <>
@@ -14,7 +21,7 @@ const ContactUs = () => {
                 <Row className='align-items-start'>
                     <Col sm={true} className="d-flex flex-column p-2">
                         <span className='py-2 fs-4'>How can we assist you?</span>
-                        <form className='d-flex flex-column gap-2' onSubmit={handleSubmit(handleSubmition)}>
+                        <form ref={form} className='d-flex flex-column gap-2' onSubmit={handleSubmit(handleSubmition)}>
                             <Row className='d-flex flex-column g-2'>
                                 <Col className='d-flex flex-column'>
                                     <TextField id="first-name" label="First Name" variant="outlined" {...register("firstname", { required: true })} error={!!errors.firstname} />
