@@ -20,7 +20,7 @@ const Inventory = () => {
         },
     ];
     return (
-        <div className="container">
+        <div className="container pt-3">
             <Filters />
             <div className="container">
                 <Table data={{ columns, rows, height: 320 }} />

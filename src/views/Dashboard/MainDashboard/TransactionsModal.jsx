@@ -22,6 +22,8 @@ const TransactionsModal = () => {
         { image: 'image5', product_name: 'Product 5', amount: 500 },
         { image: 'image6', product_name: 'Product 6', amount: 600 },
         { image: 'image7', product_name: 'Product 7', amount: 700 },
+        { image: 'image8', product_name: 'Product 8', amount: 800 },
+        { image: 'image9', product_name: 'Product 9', amount: 900 },
     ]
     return (
         <>
@@ -78,7 +80,7 @@ const TransactionsModal = () => {
                                                         component="img"
                                                         height="140"
                                                         image="https://via.placeholder.com/300.png/53893D/fff"
-                                                        alt="green iguana"
+                                                        alt={`card${i}`}
                                                     />
                                                     <CardContent>
                                                         <Typography gutterBottom variant="h5" component="div">
@@ -91,8 +93,8 @@ const TransactionsModal = () => {
                                                         Add to cart
                                                     </Button>
                                                 </CardActions>
-                                            </Card></Grid>
-
+                                            </Card>
+                                        </Grid>
                                     )
                                 })
                             }
