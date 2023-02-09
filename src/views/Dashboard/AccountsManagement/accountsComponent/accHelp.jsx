@@ -3,6 +3,7 @@ import React, { useRef } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2';
 
 const ContactUs = () => {
     const { register, formState: { errors }, handleSubmit, clearErrors } = useForm()
@@ -10,7 +11,8 @@ const ContactUs = () => {
     const handleSubmition = (data) => {
         emailjs.sendForm('service_dx8yzg3', 'template_x8ft2k3', form.current, 'yesI1Hod8Cx22taJ8')
         .then((result) => {
-            console.log(result.text);
+
+                Swal.fire({ title: "Success", text: "Your Email has been sent!", icon: "success", confirmButtonColor: '#53893D' })
         }, (error) => {
             console.log(error.text);
         });
