@@ -1,14 +1,12 @@
-import { Badge, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, Stack, Typography } from '@mui/material';
+import { Badge, Box, Button, ButtonGroup, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { AiFillDelete } from 'react-icons/ai';
-import { FaMinus } from 'react-icons/fa';
 import { MdOutlineKeyboardReturn } from 'react-icons/md';
 import { RiShoppingBasket2Line } from 'react-icons/ri';
 import useAppStore from '../../../appStore';
+import FetchFormData from '../../../utils/API/Fetch/FetchFormData';
 import FetchWithoutBody from '../../../utils/API/Fetch/FetchWithoutBody';
 import CheckoutHeader from './CheckoutHeader';
-
 const TransactionsModal = () => {
     const credentials = useAppStore(state => state.credentials)
     const [cart, setCart] = useState([]);
@@ -37,11 +35,6 @@ const TransactionsModal = () => {
             setCart(cart)
         }
         setCartQuantity(prevCartQuantity => prevCartQuantity + 1)
-        if (cartQuantity > 1)
-            setCartTotal(cart.map(a => a.price_total).reduce((b, c) => b + c))
-        else if (cartQuantity === 1) {
-            setCartTotal(cart.map(a => a.price_total))
-        }
     }
     useEffect(() => {
         const processor = () => {
@@ -54,6 +47,11 @@ const TransactionsModal = () => {
     const handleClickCart = () => {
         setShowCards(false)
         setShowCart(true)
+        if (cartQuantity > 1)
+            setCartTotal(cart.map(a => a.price_total).reduce((b, c) => b + c))
+        else if (cartQuantity === 1) {
+            setCartTotal(cart.map(a => a.price_total))
+        }
     }
     const handleClickReturn = () => {
         setShowCards(true)
@@ -62,6 +60,7 @@ const TransactionsModal = () => {
     const handleClickDeleteCartItem = (e) => {
         let data = JSON.parse(e.target.getAttribute('data-value'))
         let ncart = cart.filter(item => item.product_id !== data.product_id)
+        console.log(ncart)
         setCart(ncart)
         if (cartQuantity > 1) {
             setCartTotal(ncart.map(a => a.price_total).reduce((b, c) => b + c))
@@ -73,6 +72,22 @@ const TransactionsModal = () => {
     }
     const handleClickMinusCartItem = (e) => {
         console.log(e.target.getAttribute('data-value'))
+    }
+    const handleClickPay = () => {
+        let data = new Object
+        let price_total = cartQuantity > 1 ? cart.map(a => a.price_total).reduce((b, c) => b + c) : cart.map(a => a.price_total)[0]
+        data['items_array'] = cart.map(a => ({ id: a.product_id, count: a.quantity }))
+        data['transaction_total'] = price_total
+        data['merchant_id'] = credentials.user_id
+        data['transaction'] = `Transaction Purchase`
+
+        const DataProcessing = async () => {
+            let response = await
+                FetchFormData('transactions/add', credentials.token, data)
+            console.log(response)
+        }
+        DataProcessing()
+
     }
     const results = []
     const items = cart.filter((value, index, self) => index === self.findIndex((t) => (t.product_name === value.product_name && t.product_id == value.product_id)))
@@ -92,10 +107,11 @@ const TransactionsModal = () => {
                         <Typography component="div" variant='h6'>{`₱${item.product_price}`}</Typography>
                         <Typography component="div" variant='h6'>{`₱${item.price_total}`}</Typography>
                         <Typography component="div" variant='h6'>{`${item.quantity}`}</Typography>
-                        <Stack direction="row">
-                            <IconButton data-value={JSON.stringify(item)} onClick={handleClickMinusCartItem}><FaMinus data-value={JSON.stringify(item)} /></IconButton>
-                            <IconButton data-value={JSON.stringify(item)} onClick={handleClickDeleteCartItem}><AiFillDelete data-value={JSON.stringify(item)} /></IconButton>
-                        </Stack>
+                        <Typography component="div" variant='h6'>{`${item.quantity}`}</Typography>
+                        <ButtonGroup>
+                            <Button variant="contained" color="success" data-value={JSON.stringify(item)} onClick={handleClickMinusCartItem}>-</Button>
+                            <Button variant="contained" color="warning" data-value={JSON.stringify(item)} onClick={handleClickDeleteCartItem}>Delete</Button>
+                        </ButtonGroup>
                     </CardContent>
                 </Card>
             </Grid>)
@@ -167,7 +183,7 @@ const TransactionsModal = () => {
                                     <Grid item md={12}>
                                         <Stack direction="row" justifyContent="space-between" alignItems='center'>
                                             <Typography variant="h6">{`Total Amount: ₱${cartTotal}`}</Typography>
-                                            <Button variant="contained" color="success">Pay</Button>
+                                            <Button variant="contained" color="success" onClick={handleClickPay}>Pay</Button>
                                         </Stack>
                                     </Grid>
                                 </>
