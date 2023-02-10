@@ -1,42 +1,105 @@
-import { Badge, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, FilledInput, FormControl, Grid, IconButton, InputAdornment, Typography } from '@mui/material';
+import { Badge, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiFillDelete } from 'react-icons/ai';
+import { FaMinus } from 'react-icons/fa';
+import { MdOutlineKeyboardReturn } from 'react-icons/md';
 import { RiShoppingBasket2Line } from 'react-icons/ri';
 import useAppStore from '../../../appStore';
 import FetchWithoutBody from '../../../utils/API/Fetch/FetchWithoutBody';
+import CheckoutHeader from './CheckoutHeader';
 
 const TransactionsModal = () => {
     const credentials = useAppStore(state => state.credentials)
     const [cart, setCart] = useState([]);
     const [show, setShow] = useState(false);
     const [cards, setCards] = useState([]);
+    const [showCards, setShowCards] = useState(true)
+    const [showCart, setShowCart] = useState(false);
+    const [cartQuantity, setCartQuantity] = useState(0)
+    const [cartTotal, setCartTotal] = useState(0);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const handleClick = () => { console.log('test') };
     const handleClickAddToCart = (e) => {
-        setCart(prevCart => [...prevCart, JSON.parse(e.target.getAttribute('data-value'))])
-        console.log(cart.length)
+        let data = JSON.parse(e.target.getAttribute('data-value'))
+        if (cart.filter(item => item.product_id === data.product_id).length < 1) {
+            data['quantity'] = 1
+            data['price_total'] = data.product_price
+            setCart(prevCart => [...prevCart, data])
+        }
+        else {
+            cart.forEach((item, i) => {
+                if (item.product_id === data.product_id) {
+                    item.quantity = item.quantity + 1
+                    item.price_total = item.product_price * item.quantity
+                }
+            })
+            setCart(cart)
+        }
+        setCartQuantity(prevCartQuantity => prevCartQuantity + 1)
+        if (cartQuantity > 1)
+            setCartTotal(cart.map(a => a.price_total).reduce((b, c) => b + c))
+        else if (cartQuantity === 1) {
+            setCartTotal(cart.map(a => a.price_total))
+        }
     }
     useEffect(() => {
-        const processor = async () => {
-            return await FetchWithoutBody('products/fetch', credentials.token)
+        const processor = () => {
+            FetchWithoutBody('products/fetch', credentials.token).then(res =>
+                setCards(res.responsedata))
         }
-        let data = processor()
-        console.log(data)
+        processor()
     }, [show])
-    console.log(cards)
-    const tempCards = [
-        { image: 'image1', product_name: 'Product 1', amount: 100 },
-        { image: 'image2', product_name: 'Product 2', amount: 200 },
-        { image: 'image3', product_name: 'Product 3', amount: 300 },
-        { image: 'image4', product_name: 'Product 4', amount: 400 },
-        { image: 'image5', product_name: 'Product 5', amount: 500 },
-        { image: 'image6', product_name: 'Product 6', amount: 600 },
-        { image: 'image7', product_name: 'Product 7', amount: 700 },
-        { image: 'image8', product_name: 'Product 8', amount: 800 },
-        { image: 'image9', product_name: 'Product 9', amount: 900 },
-    ]
+
+    const handleClickCart = () => {
+        setShowCards(false)
+        setShowCart(true)
+    }
+    const handleClickReturn = () => {
+        setShowCards(true)
+        setShowCart(false)
+    }
+    const handleClickDeleteCartItem = (e) => {
+        let data = JSON.parse(e.target.getAttribute('data-value'))
+        let ncart = cart.filter(item => item.product_id !== data.product_id)
+        setCart(ncart)
+        if (cartQuantity > 1) {
+            setCartTotal(ncart.map(a => a.price_total).reduce((b, c) => b + c))
+            setCartQuantity(ncart.map(a => a.quantity).reduce((b, c) => b + c))
+        } else if (ncart.length === 0) {
+            setCartQuantity(0)
+            setCartTotal(0)
+        }
+    }
+    const handleClickMinusCartItem = (e) => {
+        console.log(e.target.getAttribute('data-value'))
+    }
+    const results = []
+    const items = cart.filter((value, index, self) => index === self.findIndex((t) => (t.product_name === value.product_name && t.product_id == value.product_id)))
+    const countItems = new Object
+    cart.forEach((cartItem, i) => {
+        var key = JSON.stringify(cartItem.product_id)
+        countItems[key] = (countItems[key] || 0) + 1
+    })
+    items.forEach((item, i) => {
+        const countItemsKey = Object.keys(countItems)
+        results.push(
+            <Grid item key={i} md={12} >
+                <Card sx={{ display: 'flex' }}>
+                    <CardMedia component="img" image={item.product_image} sx={{ width: 151 }} alt={`product${i}`} />
+                    <CardContent sx={{ flex: "1 0 auto", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography component="div" variant='h6'>{item.product_name}</Typography>
+                        <Typography component="div" variant='h6'>{`₱${item.product_price}`}</Typography>
+                        <Typography component="div" variant='h6'>{`₱${item.price_total}`}</Typography>
+                        <Typography component="div" variant='h6'>{`${item.quantity}`}</Typography>
+                        <Stack direction="row">
+                            <IconButton data-value={JSON.stringify(item)} onClick={handleClickMinusCartItem}><FaMinus data-value={JSON.stringify(item)} /></IconButton>
+                            <IconButton data-value={JSON.stringify(item)} onClick={handleClickDeleteCartItem}><AiFillDelete data-value={JSON.stringify(item)} /></IconButton>
+                        </Stack>
+                    </CardContent>
+                </Card>
+            </Grid>)
+    })
     return (
         <>
             <Button variant="outlined" onClick={handleShow} color="success">
@@ -47,41 +110,22 @@ const TransactionsModal = () => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered backdrop="static">
                 <Modal.Header closeButton>
-                    <Modal.Title>Transaction</Modal.Title>
+                    <Modal.Title>{showCards ? 'Transaction' : 'Checkout'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Grid container justifyContent='space-between' alignItems="center">
-                        <Grid item>
-                            <FormControl variant="outlined" sx={{ padding: '10px' }}>
-                                <FilledInput
-                                    id="search"
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClick}
-                                                edge="end"
-                                            >
-                                                <AiOutlineSearch />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-                        </Grid>
-                        <Grid item>
-                            <IconButton size="large">
-                                <Badge badgeContent={cart.length} color="success">
-                                    <RiShoppingBasket2Line />
-                                </Badge>
-                            </IconButton>
-                        </Grid>
-                    </Grid>
-
+                    <Stack justifyContent='flex-end' alignItems="flex-end">
+                        {showCards ? <IconButton size="large" onClick={handleClickCart}>
+                            <Badge badgeContent={cartQuantity} color="success">
+                                <RiShoppingBasket2Line />
+                            </Badge>
+                        </IconButton> : <IconButton size="large" onClick={handleClickReturn}>
+                            <MdOutlineKeyboardReturn />
+                        </IconButton>}
+                    </Stack>
                     <Box style={{ maxHeight: '100vh', overflow: 'auto' }}>
                         <Grid container spacing={2} sx={{ padding: '10px' }}>
-                            {
-                                tempCards.map((card, i) => {
+                            {showCards &&
+                                cards.map((card, i) => {
                                     card['key'] = i
                                     let updatedCard = card
                                     return (
@@ -91,13 +135,18 @@ const TransactionsModal = () => {
                                                     <CardMedia
                                                         component="img"
                                                         height="140"
-                                                        image="https://via.placeholder.com/300.png/53893D/fff"
+                                                        image={card.product_image}
                                                         alt={`card${i}`}
                                                     />
                                                     <CardContent>
-                                                        <Typography gutterBottom variant="h5" component="div">
-                                                            {card.product_name}
-                                                        </Typography>
+                                                        <Stack direction="row" justifyContent="space-between">
+                                                            <Typography gutterBottom variant="h5" component="div">
+                                                                {card.product_name}
+                                                            </Typography>
+                                                            <Typography gutterBottom variant="h5" component="div">
+                                                                {`₱${card.product_price}`}
+                                                            </Typography>
+                                                        </Stack>
                                                     </CardContent>
                                                 </CardActionArea>
                                                 <CardActions>
@@ -109,6 +158,19 @@ const TransactionsModal = () => {
                                         </Grid>
                                     )
                                 })
+                            }
+                            {showCart &&
+                                cart.length > 0 &&
+                                <>
+                                    <CheckoutHeader />
+                                    {results}
+                                    <Grid item md={12}>
+                                        <Stack direction="row" justifyContent="space-between" alignItems='center'>
+                                            <Typography variant="h6">{`Total Amount: ₱${cartTotal}`}</Typography>
+                                            <Button variant="contained" color="success">Pay</Button>
+                                        </Stack>
+                                    </Grid>
+                                </>
                             }
                         </Grid>
                     </Box>
