@@ -2,7 +2,7 @@ import { Button, FormControl, MenuItem, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-
+import { MdPostAdd } from 'react-icons/md';
 
 const InventoryModal = () => {
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm()
@@ -35,8 +35,8 @@ const InventoryModal = () => {
         setProduct(e.target.value)
     }
     return (<>
-        <Button variant="contained" onClick={handleShow} color="success">
-            Add inventory
+        <Button variant="contained" onClick={handleShow} color="success" startIcon={<MdPostAdd/>}>
+           inventory
         </Button>
 
         <Modal show={show} onHide={handleClose} size="lg"
