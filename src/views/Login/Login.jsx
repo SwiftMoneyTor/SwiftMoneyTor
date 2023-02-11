@@ -25,7 +25,7 @@ const Login = () => {
                         "email": data.email,
                         "password": data.password
                     }, 'POST')
-                let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email }
+                let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email, user_id: response.user.id }
                 setCredentials(creds)
             }
             DataProcessing()

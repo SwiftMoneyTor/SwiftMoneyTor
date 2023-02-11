@@ -9,7 +9,8 @@ const useAppStore = create(set => ({
     credentials: {
         name: '',
         email: '',
-        token: ''
+        token: '',
+        user_id:''
     },
     setComponent: (val) => set(state => ({ component: val })),
     setActiveDash: (val) => set(state => ({ activeDash: val })),
