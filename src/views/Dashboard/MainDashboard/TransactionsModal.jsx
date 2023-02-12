@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { MdOutlineKeyboardReturn } from 'react-icons/md';
 import { RiShoppingBasket2Line } from 'react-icons/ri';
+import Swal from 'sweetalert2';
 import useAppStore from '../../../appStore';
 import FetchFormData from '../../../utils/API/Fetch/FetchFormData';
 import FetchWithoutBody from '../../../utils/API/Fetch/FetchWithoutBody';
@@ -60,18 +61,35 @@ const TransactionsModal = () => {
     const handleClickDeleteCartItem = (e) => {
         let data = JSON.parse(e.target.getAttribute('data-value'))
         let ncart = cart.filter(item => item.product_id !== data.product_id)
-        console.log(ncart)
         setCart(ncart)
-        if (cartQuantity > 1) {
+        if (ncart.length > 1) {
             setCartTotal(ncart.map(a => a.price_total).reduce((b, c) => b + c))
             setCartQuantity(ncart.map(a => a.quantity).reduce((b, c) => b + c))
+        } else if (ncart.length === 1) {
+            setCartQuantity(1)
+            setCartTotal(1)
         } else if (ncart.length === 0) {
             setCartQuantity(0)
             setCartTotal(0)
         }
     }
     const handleClickMinusCartItem = (e) => {
-        console.log(e.target.getAttribute('data-value'))
+        let data = JSON.parse(e.target.getAttribute('data-value'))
+        cart.forEach((item, i) => {
+            if (item.product_id === data.product_id) {
+                item.quantity = item.quantity - 1
+                item.price_total = item.product_price * item.quantity
+            }
+        })
+        setCart(cart)
+        if (cartQuantity > 1) {
+            setCartTotal(cart.map(a => a.price_total).reduce((b, c) => b + c))
+            setCartQuantity(prevCartQuantity => prevCartQuantity - 1)
+        }
+        else if (cartQuantity === 1) {
+            setCartTotal(cart.map(a => a.price_total))
+            setCartQuantity(0)
+        }
     }
     const handleClickPay = () => {
         let data = new Object
@@ -84,7 +102,13 @@ const TransactionsModal = () => {
         const DataProcessing = async () => {
             let response = await
                 FetchFormData('transactions/add', credentials.token, data)
-            console.log(response)
+            if (response.data.success) {
+                Swal.fire({ title: "Success", text: "Transaction Successful", icon: "success" })
+                setCartQuantity(0)
+                setCart([])
+                setShowCards(true)
+                setShowCart(false)
+            }
         }
         DataProcessing()
 
@@ -97,7 +121,6 @@ const TransactionsModal = () => {
         countItems[key] = (countItems[key] || 0) + 1
     })
     items.forEach((item, i) => {
-        const countItemsKey = Object.keys(countItems)
         results.push(
             <Grid item key={i} md={12} >
                 <Card sx={{ display: 'flex' }}>
@@ -109,7 +132,8 @@ const TransactionsModal = () => {
                         <Typography component="div" variant='h6'>{`${item.quantity}`}</Typography>
                         <Typography component="div" variant='h6'>{`${item.quantity}`}</Typography>
                         <ButtonGroup>
-                            <Button variant="contained" color="success" data-value={JSON.stringify(item)} onClick={handleClickMinusCartItem}>-</Button>
+                            {item.quantity > 1 &&
+                                <Button variant="contained" color="success" data-value={JSON.stringify(item)} onClick={handleClickMinusCartItem}>-</Button>}
                             <Button variant="contained" color="warning" data-value={JSON.stringify(item)} onClick={handleClickDeleteCartItem}>Delete</Button>
                         </ButtonGroup>
                     </CardContent>
@@ -156,10 +180,10 @@ const TransactionsModal = () => {
                                                     />
                                                     <CardContent>
                                                         <Stack direction="row" justifyContent="space-between">
-                                                            <Typography gutterBottom variant="h5" component="div">
+                                                            <Typography gutterBottom variant="h6" component="div">
                                                                 {card.product_name}
                                                             </Typography>
-                                                            <Typography gutterBottom variant="h5" component="div">
+                                                            <Typography gutterBottom variant="h6" component="div">
                                                                 {`₱${card.product_price}`}
                                                             </Typography>
                                                         </Stack>

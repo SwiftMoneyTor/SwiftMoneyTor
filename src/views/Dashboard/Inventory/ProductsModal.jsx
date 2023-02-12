@@ -1,27 +1,43 @@
 import { Button, FormControl, MenuItem, Stack, TextField } from "@mui/material";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { MdAddBusiness } from 'react-icons/md';
+import Swal from "sweetalert2";
 import useAppStore from '../../../appStore';
 import FetchWithFormData from "../../../utils/API/FetchWithFormData";
 
-
 const ProductsModal = () => {
-    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm()
+    const { register, handleSubmit, formState: { errors }, clearErrors, reset } = useForm()
     const credentials = useAppStore(state => state.credentials)
     const [show, setShow] = useState(false);
     const [image, setImage] = useState('');
     const [isUploaded, setIsUploaded] = useState(false);
     const [select, setSelect] = useState(1)
+    const [formReset, setFormReset] = useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    useEffect(() => {
+        reset()
+    }, [formReset])
     const handleSubmition = (data) => {
         const formData = new FormData()
         formData.append('product_image', data.product_image[0])
         formData.append('product_name', data.product_name)
         formData.append('product_price', data.product_price)
         formData.append('category_id', data.category)
-        FetchWithFormData(credentials.token, formData)
+        let response = FetchWithFormData(credentials.token, formData)
+        response.then((res) => {
+            if (res.data.success) {
+                Swal.fire({ title: 'Success', text: 'Product successfully added', icon: "success", confirmButtonColor: '#53893D' }).then((result) => {
+                    if (result.isConfirmed) {
+                        setFormReset(prevFormReset => !prevFormReset)
+                        setShow(false)
+                    }
+                })
+            }
+        })
+
     }
     const categories = [
         { name: 'Category 1', id: 1 },
@@ -33,14 +49,13 @@ const ProductsModal = () => {
         setSelect(e.target.value)
     }
     const HandleChangeImage = (e) => {
-        console.log(e.target.files[0])
         setImage(URL.createObjectURL(e.target.files[0]))
         setIsUploaded(true)
     }
     return (<>
 
-        <Button variant="contained" onClick={handleShow} color="success">
-            Add Product
+        <Button variant="contained" onClick={handleShow} color="success" startIcon={<MdAddBusiness />}>
+            Product
         </Button>
 
         <Modal show={show} onHide={handleClose} size="lg"
@@ -69,7 +84,7 @@ const ProductsModal = () => {
                             </Button>
                         </FormControl>
                         {isUploaded && <FormControl variant="outlined">
-                            <img src={image ?? ''}  height={150}/>
+                            <img src={image ?? ''} height={150} />
                         </FormControl>}
                         <FormControl variant="outlined">
                             <TextField label="Product Price" {...register('product_price')} />
