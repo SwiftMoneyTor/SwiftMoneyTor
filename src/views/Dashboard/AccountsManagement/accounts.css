@@ -47,11 +47,6 @@
     color: red;
 }
 
-.editToSave{
-    cursor: pointer;
+.borderHeight{
+    min-height: 560px;
 }
-
-.displayNone{
-    display: none;
-}
-

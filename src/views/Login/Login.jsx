@@ -16,22 +16,20 @@ const Login = () => {
     const navigate = useNavigate()
     const handleSubmition = (data) => {
         if (Object.keys(data).length > 0) {
-            setAuth()
-            sessionStorage.setItem('auth', true)
-
-            const DataProcessing = async () => {
-                let response = await
-                    FetchAPI('auth/login', {
-                        "email": data.email,
-                        "password": data.password
-                    }, 'POST')
-                let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email, user_id: response.user.id }
-                setCredentials(creds)
-            }
-            DataProcessing()
-
-            if (Object.values(credentials).length > 0)
-                navigate('/dashboard', { replace: true }, [navigate])
+            const DataProcessing = () => {
+                FetchAPI('auth/login', {
+                    "email": data.email,
+                    "password": data.password
+                }, 'POST').then(response => {
+                    let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email, id: response.user.id }
+                    setCredentials(creds)
+                    setAuth()
+                    sessionStorage.setItem('auth', JSON.stringify(creds))
+                    navigate('/dashboard', { replace: true }, [navigate])
+                }
+                )
+            }          
+            DataProcessing()    
         }
     }
     const handleClick = () => {

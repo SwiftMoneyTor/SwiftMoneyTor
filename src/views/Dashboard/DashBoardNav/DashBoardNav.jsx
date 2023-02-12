@@ -21,6 +21,14 @@ const DashBoardNav = () => {
     const handleClick = (event) => {
         setActive(event.target.getAttribute('data-dashnav'))
     }
+
+    // const sessionAuth = async () => {
+    //     const getAuth = await JSON.parse(sessionStorage.getItem('auth'))
+    //     return getAuth
+    // }
+
+    const getAuth = JSON.parse(sessionStorage.getItem('auth'))
+
     const handleLogout = () => {
         Swal.fire({
             title: 'Are you sure?',
@@ -74,7 +82,7 @@ const DashBoardNav = () => {
                         })}
                     </Nav>
                     <Nav>
-                        <NavDropdown title={credentials.email} id="collasible-nav-dropdown">
+                        <NavDropdown title={getAuth.email} id="collasible-nav-dropdown">
                                 <Nav className="mx-auto">
                                     <Nav.Item className='profilePic-nav mx-auto mt-2'>
                                         <Image src={defaultPic} />

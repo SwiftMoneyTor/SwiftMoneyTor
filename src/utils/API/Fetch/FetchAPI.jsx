@@ -13,6 +13,7 @@ const FetchAPI = async (url, data, method = 'POST') => {
         })
         let json = await response.json()
         return await json
+        console.log(json)
     } catch (error) {
         console.log(error)
     }

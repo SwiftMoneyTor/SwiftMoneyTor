@@ -96,7 +96,7 @@ const TransactionsModal = () => {
         let price_total = cartQuantity > 1 ? cart.map(a => a.price_total).reduce((b, c) => b + c) : cart.map(a => a.price_total)[0]
         data['items_array'] = cart.map(a => ({ id: a.product_id, count: a.quantity }))
         data['transaction_total'] = price_total
-        data['merchant_id'] = credentials.user_id
+        data['merchant_id'] = credentials.id
         data['transaction'] = `Transaction Purchase`
 
         const DataProcessing = async () => {

@@ -26,7 +26,7 @@ const ProductsModal = () => {
         formData.append('product_name', data.product_name)
         formData.append('product_price', data.product_price)
         formData.append('category_id', data.category)
-        let response = FetchWithFormData(credentials.token, formData)
+        let response = FetchWithFormData('products/add',credentials.token, formData)
         response.then((res) => {
             if (res.data.success) {
                 Swal.fire({ title: 'Success', text: 'Product successfully added', icon: "success", confirmButtonColor: '#53893D' }).then((result) => {

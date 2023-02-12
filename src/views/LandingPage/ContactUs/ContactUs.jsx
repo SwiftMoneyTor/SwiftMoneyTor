@@ -1,16 +1,26 @@
 import { FormHelperText, TextField } from '@mui/material'
-import React from 'react'
+import React, {useRef} from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import contact from '../../../assets/Contact us.gif'
 import Footer from '../../Template/Footer/Footer'
 import Navigation from '../../Template/Navigation/Navigation'
 import './ContactUs.css'
+import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2';
 
 const ContactUs = () => {
     const { register, formState: { errors }, handleSubmit, clearErrors } = useForm()
+    const form = useRef();
     const handleSubmition = (data) => {
-        console.log(data)
+        emailjs.sendForm('service_dx8yzg3', 'template_x8ft2k3', form.current, 'yesI1Hod8Cx22taJ8')
+        .then((result) => {
+            console.log(result.text);
+                Swal.fire({ title: "Success", text: "Your Email has been sent!", icon: "success", confirmButtonColor: '#53893D' })
+
+        }, (error) => {
+            console.log(error.text);
+        });
     }
     return (
         <>
@@ -22,7 +32,7 @@ const ContactUs = () => {
                             Get in touch
                         </p>
                         <span className='pb-4'>We would love to hear from you</span>
-                        <form action="" className='d-flex flex-column gap-2' onSubmit={handleSubmit(handleSubmition)}>
+                        <form ref={form} action="" className='d-flex flex-column gap-2' onSubmit={handleSubmit(handleSubmition)}>
                             <Row>
                                 <Col className='d-flex flex-column'>
                                     <label htmlFor="first-name">First name</label>
