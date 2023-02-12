@@ -6,7 +6,6 @@ import { AiOutlineExport, AiOutlineSetting } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAppStore from "../../../appStore";
-import defaultPic from '../../../assets/dashboard/avatar.png';
 import LOGO from '../../../assets/logo.png';
 import './DashBoardNav.css';
 
@@ -14,19 +13,13 @@ const DashBoardNav = () => {
     const setActive = useAppStore(state => state.setActiveDash)
     const activeDashboard = useAppStore(state => state.activeDash)
     const setComponent = useAppStore(state => state.setComponent)
+    const profilePic = useAppStore(state => state.profilePic)
     const setAuth = useAppStore(state => state.setAuth)
-    const credentials = useAppStore(state=>state.credentials)
-    // const ProfilePic = useAppStore(state => state.setProfilePic)
+    const credentials = useAppStore(state => state.credentials)
     const navigate = useNavigate()
     const handleClick = (event) => {
         setActive(event.target.getAttribute('data-dashnav'))
     }
-
-    // const sessionAuth = async () => {
-    //     const getAuth = await JSON.parse(sessionStorage.getItem('auth'))
-    //     return getAuth
-    // }
-
     const getAuth = JSON.parse(sessionStorage.getItem('auth'))
 
     const handleLogout = () => {
@@ -55,7 +48,7 @@ const DashBoardNav = () => {
                     }
                 })
             }
-            else{
+            else {
                 window.history.back()
             }
         })
@@ -83,31 +76,31 @@ const DashBoardNav = () => {
                     </Nav>
                     <Nav>
                         <NavDropdown title={getAuth.email} id="collasible-nav-dropdown">
-                                <Nav className="mx-auto">
-                                    <Nav.Item className='profilePic-nav mx-auto mt-2'>
-                                        <Image src={defaultPic} />
-                                    </Nav.Item>
-                                </Nav>
-                                <Nav className="mx-auto">
-                                    <Nav.Item className="nav-item noHOver mx-auto">
-                                        <span className='profilePic-nav nav-link'>Company</span>
-                                    </Nav.Item>
-                                </Nav>
-                                <Nav className="mx-auto">
-                                    <Nav.Item className="nav-item">
-                                        <Link to="/account" className='nav-link ms-2' onClick={handleClick} data-dashnav='account'>
-                                            <AiOutlineSetting className='me-2 mb-1' />Account
-                                        </Link> 
-                                    </Nav.Item>
-                                </Nav>
-                                <NavDropdown.Divider />
-                                <Nav className="mx-auto">
-                                    <Nav.Item className="nav-item">
-                                        <Link to="/logout" className={`${activeDashboard == "logout" ? `activeDash` : ``} nav-link ms-2`} onClick={handleLogout}>
-                                            <AiOutlineExport className='me-2 mb-1'/>Logout
-                                        </Link>
-                                    </Nav.Item>
-                                </Nav>
+                            <Nav className="mx-auto">
+                                <Nav.Item className='profilePic-nav mx-auto mt-2'>
+                                    <Image src={profilePic} />
+                                </Nav.Item>
+                            </Nav>
+                            <Nav className="mx-auto">
+                                <Nav.Item className="nav-item noHOver mx-auto">
+                                    <span className='profilePic-nav nav-link'>Company</span>
+                                </Nav.Item>
+                            </Nav>
+                            <Nav className="mx-auto">
+                                <Nav.Item className="nav-item">
+                                    <Link to="/account" className='nav-link ms-2' onClick={handleClick} data-dashnav='account'>
+                                        <AiOutlineSetting className='me-2 mb-1' />Account
+                                    </Link>
+                                </Nav.Item>
+                            </Nav>
+                            <NavDropdown.Divider />
+                            <Nav className="mx-auto">
+                                <Nav.Item className="nav-item">
+                                    <Link to="/logout" className={`${activeDashboard == "logout" ? `activeDash` : ``} nav-link ms-2`} onClick={handleLogout}>
+                                        <AiOutlineExport className='me-2 mb-1' />Logout
+                                    </Link>
+                                </Nav.Item>
+                            </Nav>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
