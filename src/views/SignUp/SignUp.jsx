@@ -70,7 +70,7 @@ const SignUp = () => {
                                     </div>
                                     <div className="d-flex gap-2 align-items-start flex-column">
                                         <label htmlFor="password">Password</label>
-                                        <input type="password" id="password" className={`${errors.password && `is-invalid`} form-control`} {...register("password", { required: true })} />
+                                        <input type="password" id="password" minLength={6} className={`${errors.password && `is-invalid`} form-control`} {...register("password", { required: true })} />
                                         {errors.password && <span className="invalid-feedback">
                                             Must type password
                                         </span>}

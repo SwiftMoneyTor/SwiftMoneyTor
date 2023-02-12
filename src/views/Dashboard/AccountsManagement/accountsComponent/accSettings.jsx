@@ -19,14 +19,14 @@ export default function AccSettings(props) {
                 <span className="input-group-text">Password</span>
                 <input
                     type="password"
-                    className="form-control"
+                    className="form-control text-center"
                     name='password'
-                    value={props.AccInfo.password}
+                    value= 'password'
                     disabled
                 />
             </div>
             <div className="d-flex justify-content-end mt-5 pt-4">
-                <span className='btn btn-danger me-2 input-group-text fs-5'
+                <span className='btn btn-danger me-2 input-group-text fs-5' id='account'
                     onClick={props.toClick}>
                         Edit
                 </span>

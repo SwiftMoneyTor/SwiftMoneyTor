@@ -3,7 +3,9 @@ import React from 'react';
 
 export default function ProfileForm(props){
 
-    const {firstName, lastName, bDay, gender, lotNum, street, brgy, city, zipCode} = props.profileInfo
+    if(props.profileInfo != null){
+        var {firstName, lastName, bDay, gender, lotNum, street, brgy, city, zipCode} = props.profileInfo
+    }
 
     return(
         <form onSubmit={props.submit} method="POST" className='col-md-12 col-lg-10 col-xl-12 my-4'>
@@ -13,7 +15,7 @@ export default function ProfileForm(props){
                 type="text" 
                 className='form-control'
                 name='firstName'
-                value={firstName}
+                value={props.profileInfo != null ? firstName : ''}
                 disabled
                 />
             </div>
@@ -23,7 +25,7 @@ export default function ProfileForm(props){
                 type="text" 
                 className='form-control'
                 name='lastName'
-                value={lastName}
+                value={props.profileInfo != null ? lastName : ''}
                 disabled
                 />
             </div>
@@ -33,7 +35,7 @@ export default function ProfileForm(props){
                 type="text" 
                 className='form-control'
                 name='bDay'
-                value={bDay}
+                value={props.profileInfo != null ? bDay : ''}
                 disabled
                 />
             </div>
@@ -43,7 +45,7 @@ export default function ProfileForm(props){
                 type="text" 
                 className='form-control'
                 name='gender'
-                value={gender === 'M' ? "Male" : gender ==="" ? '' : "Female"}
+                value={props.profileInfo != null && gender== 'M' ? 'Male' : gender=='F' ? 'Female' : ''}
                 disabled
                 />
             </div>
@@ -55,7 +57,7 @@ export default function ProfileForm(props){
                         type="text" 
                         className='form-control'
                         name='lotNum'
-                        value={lotNum}
+                        value={props.profileInfo != null ? lotNum : ''}
                         disabled
                         />
                     </div>
@@ -67,7 +69,7 @@ export default function ProfileForm(props){
                         type="text" 
                         className='form-control'
                         name='street'
-                        value={street}
+                        value={props.profileInfo != null ? street : ''}
                         disabled
                         />
                     </div>
@@ -78,7 +80,7 @@ export default function ProfileForm(props){
                     type="text" 
                     className='form-control'
                     name='brgy'
-                    value={brgy}
+                    value={props.profileInfo != null ? brgy : ''}
                     disabled
                     />
                 </div>
@@ -89,7 +91,7 @@ export default function ProfileForm(props){
                         type="text" 
                         className='form-control'
                         name='city'
-                        value={city}
+                        value={props.profileInfo != null ? city : ''}
                         disabled
                         />
                     </div>
@@ -101,14 +103,14 @@ export default function ProfileForm(props){
                         type="text" 
                         className='form-control'
                         name='zipCode'
-                        value={zipCode}
+                        value={props.profileInfo != null ? zipCode : ''}
                         disabled
                         />
                     </div>
                 </div>
             </div>
             <div className="d-flex justify-content-end">
-                <span className='btn btn-danger me-2 input-group-text fs-5'
+                <span className='btn btn-danger me-2 input-group-text fs-5' id='profile'
                     onClick={props.toClick}>
                         Edit
                 </span>

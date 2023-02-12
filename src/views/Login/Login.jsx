@@ -1,7 +1,7 @@
 import { Col, Container, Image, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { MdDeleteSweep } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import useAppStore from "../../appStore";
 import loginImgLg from '../../assets/Login-lg.png';
 import FetchAPI from "../../utils/API/Fetch/FetchAPI";
@@ -16,8 +16,7 @@ const Login = () => {
     const navigate = useNavigate()
     const handleSubmition = (data) => {
         if (Object.keys(data).length > 0) {
-            setAuth()
-            sessionStorage.setItem('auth', true)
+            // sessionStorage.setItem('auth', true)
 
             const DataProcessing = async () => {
                 let response = await
@@ -26,8 +25,12 @@ const Login = () => {
                         "password": data.password
                     }, 'POST')
                     console.log(response)
-                let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email }
+                let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email, id: response.user.id}
                 setCredentials(creds)
+                if(response.authorisation.token === true){
+                    setAuth()
+                    sessionStorage.setItem('auth', JSON.stringify(creds))
+                }
             }
             DataProcessing()
             if (Object.values(credentials).length > 0)

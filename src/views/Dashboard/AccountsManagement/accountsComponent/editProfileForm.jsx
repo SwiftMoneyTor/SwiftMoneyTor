@@ -3,11 +3,13 @@ import { useState } from 'react';
 
 export default function editProfileForm(props){
 
-    const {profile_id, firstName, lastName, bDay, gender, lotNum, street, brgy, city, zipCode} = props.profileInfo
+    if(props.profileInfo != null){
+        var {firstName, lastName, bDay, gender, lotNum, street, brgy, city, zipCode} = props.profileInfo
+    }
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const onSubmit = data => {
-            fetch('http://localhost:8000/api/updateProfile/?users_id=1', { //to add dynamic id
+            fetch(`http://localhost:8000/api/updateProfile/?users_id=${props.userId}`, { //to add dynamic id
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
@@ -16,21 +18,22 @@ export default function editProfileForm(props){
         })
         .then(response => response.json())
         .then(res => {
-            console.log(res)
-            props.toClick(res)
+            const e = 'cancel';
+            props.toClick(e,res)
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+            console.error(error)
+        });
     };
 
     return(
         <form onSubmit={handleSubmit(onSubmit)} method="POST" className='col-md-12 col-lg-10 col-xl-12 my-4'>
-            <input type="text" defaultValue={profile_id} {...register("profile_id")} hidden/>
             <div className="input-group mb-3">
                 <span className="input-group-text">First name</span>
                 <input 
                 type="text" 
                 className={`${errors.firstName ? 'is-invalid' : ''} form-control`}
-                defaultValue={firstName}
+                defaultValue={props.profileInfo != null ? firstName : ''}
                 aria-invalid={errors.firstName ? "true" : "false"} 
                 {...register("firstName",{required : "This field is Required!"})} 
                 />
@@ -40,24 +43,24 @@ export default function editProfileForm(props){
                 <input 
                 type="text" 
                 className={`${errors.lastName && `is-invalid`} form-control`}
-                defaultValue={lastName}
+                defaultValue={props.profileInfo != null ? lastName : ''}
                 {...register("lastName", {required: true})} 
                 />
             </div>
             <div className="input-group mb-3">
                 <span className="input-group-text">Birthday</span>
                 <input 
-                type={props.editInfo === true ? "text" : "date"} 
+                type="date"
                 pattern="\d{4}-\d{2}-\d{2}"
                 className={`${errors.bDay ? 'is-invalid' : ''} form-control`}
-                defaultValue={bDay}
+                defaultValue={props.profileInfo != null ? bDay :''}
                 {...register("bDay", {required: true})} 
                 />
             </div>
             <div className="input-group mb-3">
                 <span className="input-group-text">Gender</span>
                 <select className={`${errors.gender && `is-invalid`} form-select`}
-                defaultValue={gender}
+                defaultValue={props.profileInfo != null ? gender : ''}
                 {...register("gender", {required: true})} 
                 >
                     <option>Choose...</option>
@@ -72,7 +75,7 @@ export default function editProfileForm(props){
                         <input 
                         type="text" 
                         className={`${errors.lotNum && `is-invalid`} form-control`}
-                        defaultValue={lotNum}
+                        defaultValue={props.profileInfo != null ? lotNum : ''}
                         {...register("lotNum", {required: true})} 
                         />
                     </div>
@@ -83,7 +86,7 @@ export default function editProfileForm(props){
                         <input 
                         type="text" 
                         className={`${errors.street && `is-invalid`} form-control`}
-                        defaultValue={street}
+                        defaultValue={props.profileInfo != null ? street : ''}
                         {...register("street", {required: true})} 
                         />
                     </div>
@@ -93,7 +96,7 @@ export default function editProfileForm(props){
                     <input 
                     type="text" 
                     className={`${errors.brgy && `is-invalid`} form-control`}
-                    defaultValue={brgy}
+                    defaultValue={props.profileInfo != null ? brgy :''}
                     {...register("brgy", {required: true})} 
                     />
                 </div>
@@ -103,7 +106,7 @@ export default function editProfileForm(props){
                         <input 
                         type="text" 
                         className={`${errors.city && `is-invalid`} form-control`}
-                        defaultValue={city}
+                        defaultValue={props.profileInfo != null ?  city : ''}
                         {...register("city", {required: true})} 
                         />
                     </div>
@@ -114,17 +117,18 @@ export default function editProfileForm(props){
                         <input 
                         type="text" 
                         className={`${errors.zipCode && `is-invalid`} form-control`}
-                        defaultValue={zipCode}
+                        defaultValue={props.profileInfo != null ? zipCode : ''}
                         {...register("zipCode", {required: true})} 
                         />
                     </div>
                 </div>
             </div>
             <div className="d-flex justify-content-end">
-                <span className='btn btn-danger me-2 input-group-text fs-5'
-                    onClick={props.toClick}>
+                {props.profileInfo && <span className='btn btn-danger me-2 input-group-text fs-5' id='cancel'
+                    onClick={props.toClick}
+                    >
                         Cancel
-                </span>
+                </span>}
                 <button type='submit' className='btn btn-outline-success'>Save</button>
             </div>
         </form>

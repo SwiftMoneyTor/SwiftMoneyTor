@@ -1,93 +1,42 @@
-import React from 'react';
-import 'react-dropzone-uploader/dist/styles.css'
-import Dropzone from 'react-dropzone-uploader'
-import { getDroppedOrSelectedFiles } from 'html5-file-selector'
+import React, {useState, useCallback} from 'react'
 import { Hidden } from '@mui/material';
+import {useDropzone} from 'react-dropzone'
+
+
 
 const AccProfileUpload = () => {
 
-    const [reload, setReload] = React.useState(true)
+    const onDrop = useCallback((acceptedFiles) => {
+        // Do something with the files
+        Array.from(acceptedFiles).forEach((file) => {
+            const reader = new FileReader()
 
-    const getUploadParams = ({ meta }) => {
-        const url = 'https://httpbin.org/post'
-        return { url, meta: { fileUrl: `${url}/${encodeURIComponent(meta.name)}` } }
-    }
-    
-    const handleChangeStatus = ({ meta }, status) => {
-        console.log(status, meta)
-        setReload(()=> !reload)
-    }
-    
-    const handleSubmit = (files, allFiles) => {
-        console.log(files.map(f => f.meta))
-        allFiles.forEach(f => f.remove())
-    }
-    
+            reader.onabort = () => console.log('file reading was aborted')
+            reader.onerror = () => console.log('file reading has failed')
+            reader.onload = () => {
+            // Do whatever you want with the file contents
+                const binaryStr = reader.result
+                console.log(binaryStr)
+                }
+                reader.readAsArrayBuffer(file)
+            })
+        }, [])
+        const {getRootProps, getInputProps} = useDropzone({onDrop, accept:{'image/jpeg': [], 'image/png': []}})
+        
         return (
-            <Dropzone
-                getUploadParams={getUploadParams}
-                onChangeStatus={handleChangeStatus}
-                onSubmit={handleSubmit}
-                accept="image/*"
-                maxFiles={1}
-                inputContent={(files, extra) => (extra.reject ? 'Image files only' : 'Drag Files')}
-                styles={{
-                    dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },
-                    dropzone: { width: 90 +"%", height: 90 +"%", overflow: 'hidden'},
-                    dropzoneActive: { borderColor: 'green' },
-                    inputLabel: (files, extra) => (extra.reject ? { color: 'red' } : {}),
-                }}
-            />
+            <>
+                <div {...getRootProps({
+                    className: 'border border-success rounded-4 border-3 w-100 h-100 d-flex my-5',
+                })}>
+                    <input type="file" name="img" {...getInputProps()} />
+                    <p className='d-flex align-self-center mx-auto'>Click or drop files here.</p>
+                </div>
+                <div>
+                    <button className='btn btn-outline-warning text-black' onClick={onDrop}>Upload</button>
+                </div>
+            </>
         )
-    
-    // const onFileChange = ({ meta, file }, status) => { 
-    //     console.log(status, meta, file) 
-    // }
-    // const onSubmit = (files, allFiles) => {
-    //     allFiles.forEach(f => f.remove())
-    // }
-    // const getFilesFromEvent = e => {
-    //     return new Promise(resolve => {
-    //         getDroppedOrSelectedFiles(e).then(chosenFiles => {
-    //             resolve(chosenFiles.map(f => f.fileObject))
-    //         })
-    //     })
-    // }
-    // const selectFileInput = ({ accept, onFiles, files, getFilesFromEvent }) => {
-    //     const textMsg = files.length > 0 ? 'Upload Again' : 'Select Image'
-    //     return (
-    //         <div class="input-group m-auto d-flex justify-content-center col-6">
-    //             <label className="input-group-text btn btn-success mt-4">
-    //                 {textMsg}
-    //                 <input
-    //                     style={{ display: 'block', }}
-    //                     type="file"
-    //                     accept={accept}
-    //                     onChange={e => {
-    //                         getFilesFromEvent(e).then(chosenFiles => {
-    //                             onFiles(chosenFiles)
-    //                         })
-    //                     }}
-    //                 />
-    //             </label>
-    //         </div>
-    //     )
-    // }
-    // return (
-    //     <Dropzone
-    //         onSubmit={onSubmit}
-    //         onChangeStatus={onFileChange}
-    //         InputComponent={selectFileInput}
-    //         getUploadParams={fileParams}
-    //         getFilesFromEvent={getFilesFromEvent}
-    //         accept="image/*"
-    //         maxFiles={1}
-    //         inputContent={(files, extra) => (extra.reject ? 'Image files only' : 'Drag Files')}
-    //         styles={{
-    //             dropzone: { width: 500, height: 400, overflow: 'hidden'},
-    //             dropzoneActive: { borderColor: 'green' },
-    //         }}            
-    //     />
-    // );
+
 };
+
 export default AccProfileUpload;

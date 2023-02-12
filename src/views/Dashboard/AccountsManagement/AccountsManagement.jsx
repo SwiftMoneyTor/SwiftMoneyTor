@@ -1,7 +1,6 @@
 import { NavLink } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import './accounts.css';
-// import useAppStore from "../../../appStore";
 import React, {useEffect, useState} from 'react';
 import ProfileForm from './accountsComponent/profileForm';
 import EditProfileForm from './accountsComponent/editProfileForm';
@@ -21,12 +20,15 @@ const AccountsManagement = () => {
     const [links, setLinks] = React.useState('Profile')
 
     const [profileData, setProfileData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [editInfo, setEditInfo] = React.useState(true);
+    const [AccManage, setAccManage] = useState({
+        loading: true,
+        error: null,
+        editInfo: 'cancel',
+    });
 
-    let profileId = 1
-    let getUserProfileUrl = `http://localhost:8000/api/userProfile/?users_id=${profileId}`
+    const userId = JSON.parse(sessionStorage.getItem('auth')).id
+    const userPass = JSON.parse(sessionStorage.getItem('auth')).password
+    let getUserProfileUrl = `http://localhost:8000/api/userProfile/?users_id=${userId}`
 
     useEffect(() =>{
             fetch(getUserProfileUrl , {
@@ -36,61 +38,82 @@ const AccountsManagement = () => {
                 }
             })
             .then(response => response.json())
-            .then(profileData => {
-                setProfileData(noData => ({...profileData}))
-                setLoading(false)
+            .then(data => {
+                data != '' ? setProfileData(noData => ({...data})) : setProfileData(noData => ({...data[0]}))
+                setAccManage( loading => ({
+                    ...loading,
+                        loading : false
+                }))
+                console.log(data)
             })
             .catch(err => {
-                setError(err)
+                setAccManage( error => ({
+                    ...error,
+                    error: err
+                }))
                 console.error(err)
             });
-    }, [editInfo])
+    }, [])
 
-    const clickToEdit = (event)=> {
-        setEditInfo((oldstate)=> oldstate = !oldstate)
-        if (event.profile === 'updated'){
+    console.log(userId )
+    const clickToEdit = (event, res) =>{
+
+        if(event === 'profile'){
+            setAccManage((oldstate)=> ({...oldstate, editInfo: 'profile'}))
+        }
+        else if(event === 'account'){
+            setAccManage((oldstate)=> ({...oldstate, editInfo: 'account'}))
+        }else if(event != null && event.target){
+            setAccManage((oldstate)=> ({...oldstate, editInfo: event.target.id}))
+        }else{
+            setAccManage((oldstate)=> ({...oldstate, editInfo: 'cancel'}))
+        }
+
+        if (res != null && res.profile === 'updated'){
             Swal.fire({ title: "Success", text: "Profile update saved", icon: "success", confirmButtonColor: '#53893D' })
             }
-        if (event.account === 'updated'){
+        if (res != null && res.account === 'updated'){
             Swal.fire({ title: "Success", text: "Account update saved", icon: "success", confirmButtonColor: '#53893D' })
             }
     };
-    // console.log(saved)
+    console.log(AccManage.editInfo)
     const profile = () =>{
-        if(editInfo === true){
+        if(AccManage.editInfo!='profile'){
             return (
                 <ProfileForm 
-                    editInfo={editInfo} 
+                    userId={userId}
+                    editInfo={AccManage.editInfo } 
                     toClick={clickToEdit}
-                    profileInfo={profileData[0]} 
+                    profileInfo={profileData} 
                 />
             )
         }else{
             return (
                 <EditProfileForm 
-                    editInfo={editInfo} 
+                    userId={userId}
+                    editInfo={AccManage.editInfo } 
                     toClick={clickToEdit}
-                    profileInfo={profileData[0]}
+                    profileInfo={profileData}
                 />
             )
         }
     }
 
     const account = () =>{
-        if(editInfo === true){
+        if(AccManage.editInfo != 'account'){
             return (
                 <AccSettings
-                    editInfo={editInfo} 
+                    editInfo={AccManage.editInfo} 
                     toClick={clickToEdit}
-                    AccInfo={profileData[0]} 
+                    AccInfo={profileData[0] || profileData} 
                 />
             )
         }else{
             return (
                 <EditAccount 
-                    editInfo={editInfo} 
+                    editInfo={AccManage.editInfo } 
                     toClick={ clickToEdit }
-                    AccInfo={profileData[0]}
+                    AccInfo={profileData}
                 />
             )
         }
@@ -99,7 +122,6 @@ const AccountsManagement = () => {
     const accLink = (event) => {
         const { id, innerHTML } = event.target
         id != 'Upload' ? setLinks((link) => link = innerHTML) : setLinks((link) => link = id)
-        editInfo === false && clickToEdit()
     }
 
     return (
@@ -115,20 +137,20 @@ const AccountsManagement = () => {
                     <div className=''>
                         <Nav className="flex-column fs-5 align-content-center border-end border-2 accLink">
                             <Nav.Item className='py-2'>
-                                {loading === false ? <NavLink onClick={accLink}>Profile</NavLink> : "Profile"}
+                                {AccManage.loading === false ? <NavLink onClick={accLink}>Profile</NavLink> : "Profile"}
                             </Nav.Item>
                             <Nav.Item className='py-2'>
-                                {loading === false ? <NavLink onClick={accLink}>Account</NavLink> : "Account"}
+                                {AccManage.loading === false ? <NavLink onClick={accLink}>Account</NavLink> : "Account"}
                             </Nav.Item>
                             <Nav.Item className='py-2'>
-                                {loading === false ? <NavLink onClick={accLink}>Help</NavLink> : "Help"}
+                                {AccManage.loading === false ? <NavLink onClick={accLink}>Help</NavLink> : "Help"}
                             </Nav.Item>
                         </Nav>
                     </div>
                 </div>
                 <div className="col-8 col-lg-6 d-flex py-md-5 py-sm-2 flex-column justify-content-center rightPane">
                     {
-                        loading === true ?  <div className="d-flex justify-content-center">
+                        AccManage.loading === true ?  <div className="d-flex justify-content-center">
                                                 <div className="spinner-border" role="status">
                                                     <span className="visually-hidden">Loading...</span>
                                                 </div>
