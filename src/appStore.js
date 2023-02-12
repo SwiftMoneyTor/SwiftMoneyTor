@@ -2,16 +2,15 @@ import { create } from "zustand";
 import avatar from '/src/assets/dashboard/avatar.png';
 
 const useAppStore = create(set => ({
-
     component: 'home',
     activeDash: 'dashboard',
     profilePic: `${avatar}`,
-    auth: false,
+    auth: sessionStorage.getItem('auth') || false,
     credentials: {
         name: '',
         email: '',
         token: '',
-        id: ''
+        user_id:''
     },
     setComponent: (val) => set(state => ({ component: val })),
     setActiveDash: (val) => set(state => ({ activeDash: val })),

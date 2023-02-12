@@ -1,12 +1,16 @@
 import { Grid } from "@mui/material";
 import './Filters.css';
 import InventoryModal from "./InventoryModal";
+import ProductsModal from "./ProductsModal";
 const Filters = () => {
-    
+
     return (<>
-        <Grid container spacing={2} className="px-5 text-end">
-            <Grid item xs={12}>
+        <Grid container spacing={2} direction="row" justifyContent='center'>
+            <Grid item>
                 <InventoryModal />
+            </Grid>
+            <Grid item>
+                <ProductsModal />
             </Grid>
         </Grid>
     </>
