@@ -28,7 +28,7 @@ const AccountsManagement = () => {
 
     const userId = JSON.parse(sessionStorage.getItem('auth')).id
     const userPass = JSON.parse(sessionStorage.getItem('auth')).password
-    let getUserProfileUrl = `http://localhost:8000/api/userProfile/?users_id=${userId}`
+    let getUserProfileUrl = `http://localhost:8000/api/profile/fetch/?users_id=${userId}`
 
     useEffect(() =>{
             fetch(getUserProfileUrl , {
@@ -44,7 +44,6 @@ const AccountsManagement = () => {
                     ...loading,
                         loading : false
                 }))
-                console.log(data)
             })
             .catch(err => {
                 setAccManage( error => ({
@@ -55,7 +54,6 @@ const AccountsManagement = () => {
             });
     }, [])
 
-    console.log(userId )
     const clickToEdit = (event, res) =>{
 
         if(event === 'profile'){
@@ -76,7 +74,7 @@ const AccountsManagement = () => {
             Swal.fire({ title: "Success", text: "Account update saved", icon: "success", confirmButtonColor: '#53893D' })
             }
     };
-    console.log(AccManage.editInfo)
+
     const profile = () =>{
         if(AccManage.editInfo!='profile'){
             return (
@@ -98,7 +96,6 @@ const AccountsManagement = () => {
             )
         }
     }
-
     const account = () =>{
         if(AccManage.editInfo != 'account'){
             return (
@@ -113,7 +110,7 @@ const AccountsManagement = () => {
                 <EditAccount 
                     editInfo={AccManage.editInfo } 
                     toClick={ clickToEdit }
-                    AccInfo={profileData}
+                    AccInfo={profileData[0] || profileData}
                 />
             )
         }

@@ -9,7 +9,7 @@ export default function editProfileForm(props){
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const onSubmit = data => {
-            fetch(`http://localhost:8000/api/updateProfile/?users_id=${props.userId}`, { //to add dynamic id
+            fetch(`http://localhost:8000/api/profile/update/?users_id=${props.userId}`, { //to add dynamic id
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
