@@ -1,7 +1,7 @@
 import { Col, Container, Image, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { MdDeleteSweep } from "react-icons/md";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAppStore from "../../appStore";
 import loginImgLg from '../../assets/Login-lg.png';
 import FetchAPI from "../../utils/API/Fetch/FetchAPI";
@@ -16,25 +16,20 @@ const Login = () => {
     const navigate = useNavigate()
     const handleSubmition = (data) => {
         if (Object.keys(data).length > 0) {
-            // sessionStorage.setItem('auth', true)
-
-            const DataProcessing = async () => {
-                let response = await
-                    FetchAPI('auth/login', {
-                        "email": data.email,
-                        "password": data.password
-                    }, 'POST')
-                    console.log(response)
-                let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email, id: response.user.id}
-                setCredentials(creds)
-                if(response.authorisation.token === true){
+            const DataProcessing = () => {
+                FetchAPI('auth/login', {
+                    "email": data.email,
+                    "password": data.password
+                }, 'POST').then(response => {
+                    let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email, id: response.user.id }
+                    setCredentials(creds)
                     setAuth()
                     sessionStorage.setItem('auth', JSON.stringify(creds))
+                    navigate('/dashboard', { replace: true }, [navigate])
                 }
-            }
-            DataProcessing()
-            if (Object.values(credentials).length > 0)
-                navigate('/dashboard', { replace: true }, [navigate])
+                )
+            }          
+            DataProcessing()    
         }
     }
     const handleClick = () => {

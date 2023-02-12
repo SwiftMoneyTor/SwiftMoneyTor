@@ -1,14 +1,8 @@
-import React, {useCallback, Component} from 'react'
-import { Hidden } from '@mui/material';
-import Dropzone, {useDropzone} from 'react-dropzone'
-import { Dropdown } from 'react-bootstrap';
-
-// const AccProfileUpload = () => {
-
-// };
-// export default AccProfileUpload;
+import React, { Component } from 'react';
+import Dropzone from 'react-dropzone';
 
 class AccProfileUpload extends Component{
+
 
         handleDrop = (files, rejectedFiles) => {
             console.log(files)

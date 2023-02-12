@@ -20,6 +20,5 @@ const useAppStore = create(set => ({
     setProfilePic: (val) => set(state => ({ profilePic: val }))
 }))
 
-// console.log(sessionAuth())
 
 export default useAppStore

@@ -1,42 +1,43 @@
-import React, {useState, useCallback} from 'react'
-import { Hidden } from '@mui/material';
-import {useDropzone} from 'react-dropzone'
-
+import { Button, FormControl, Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import useAppStore from '../../../../appStore';
 
 
 const AccProfileUpload = () => {
+    const credentials = useAppStore(state => state.credentials)
+    const [image, setImage] = useState('')
+    const [isUploaded, setIsUpload] = useState(false)
+    const { register, handleSubmit } = useForm
+    const handleSubmition = (data) => {
+        console.log(data)
+    }
+    const HandleChangeImage = (e) => {
+        setImage(URL.createObjectURL(e.target.files[0]))
+        setIsUploaded(true)
+    }
+    return (
+        <>
 
-    const onDrop = useCallback((acceptedFiles) => {
-        // Do something with the files
-        Array.from(acceptedFiles).forEach((file) => {
-            const reader = new FileReader()
+            {isUploaded && <Grid container>
+                <Grid item>
+                    <img src={image} />
+                    </Grid>
+            </Grid>}
 
-            reader.onabort = () => console.log('file reading was aborted')
-            reader.onerror = () => console.log('file reading has failed')
-            reader.onload = () => {
-            // Do whatever you want with the file contents
-                const binaryStr = reader.result
-                console.log(binaryStr)
-                }
-                reader.readAsArrayBuffer(file)
-            })
-        }, [])
-        const {getRootProps, getInputProps} = useDropzone({onDrop, accept:{'image/jpeg': [], 'image/png': []}})
-        
-        return (
-            <>
-                <div {...getRootProps({
-                    className: 'border border-success rounded-4 border-3 w-100 h-100 d-flex my-5',
-                })}>
-                    <input type="file" name="img" {...getInputProps()} />
-                    <p className='d-flex align-self-center mx-auto'>Click or drop files here.</p>
-                </div>
-                <div>
-                    <button className='btn btn-outline-warning text-black' onClick={onDrop}>Upload</button>
-                </div>
-            </>
-        )
+            <form onSubmit={handleSubmit(handleSubmition)}>
+                <FormControl variant="outlined">
+                    <Button variant="contained" color="success" component="label">
+                        Upload
+                        <input accept="image/*" hidden type="file" {...register('display_profile', { onChange: HandleChangeImage })} />
+                    </Button>
+                </FormControl>
+            </form>
+            <div>
+                <button className='btn btn-outline-warning text-black' onClick={onDrop}>Upload</button>
+            </div>
+        </>)
 
-};
+}
 
 export default AccProfileUpload;

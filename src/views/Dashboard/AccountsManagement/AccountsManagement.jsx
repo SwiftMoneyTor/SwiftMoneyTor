@@ -1,17 +1,17 @@
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
+import { AiOutlineUpload } from 'react-icons/ai';
+import Swal from 'sweetalert2';
+import useAppStore from '../../../appStore';
+import defaultPic from '../../../assets/dashboard/avatar.png';
 import './accounts.css';
-import React, {useEffect, useState} from 'react';
-import ProfileForm from './accountsComponent/profileForm';
-import EditProfileForm from './accountsComponent/editProfileForm';
-import AccSettings from './accountsComponent/accSettings';
 import AccHelp from './accountsComponent/accHelp';
 import AccProfileUpload from './accountsComponent/accProfileUpload';
-import {AiOutlineUpload} from 'react-icons/ai';
-import defaultPic from '../../../assets/dashboard/avatar.png';
-import useAppStore from '../../../appStore';
+import AccSettings from './accountsComponent/accSettings';
 import EditAccount from './accountsComponent/editAccount';
-import Swal from 'sweetalert2';
+import EditProfileForm from './accountsComponent/editProfileForm';
+import ProfileForm from './accountsComponent/profileForm';
 
 const AccountsManagement = () => {
 
@@ -28,13 +28,14 @@ const AccountsManagement = () => {
 
     const userId = JSON.parse(sessionStorage.getItem('auth')).id
     const userPass = JSON.parse(sessionStorage.getItem('auth')).password
-    let getUserProfileUrl = `http://localhost:8000/api/userProfile/?users_id=${userId}`
+    let getUserProfileUrl = `http://127.0.0.1:8000/api/profile/fetch?users_id=${userId}`
 
     useEffect(() =>{
             fetch(getUserProfileUrl , {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization':`Bearer ${credentials.token}`
                 }
             })
             .then(response => response.json())
@@ -55,7 +56,6 @@ const AccountsManagement = () => {
             });
     }, [])
 
-    console.log(userId )
     const clickToEdit = (event, res) =>{
 
         if(event === 'profile'){
@@ -76,7 +76,6 @@ const AccountsManagement = () => {
             Swal.fire({ title: "Success", text: "Account update saved", icon: "success", confirmButtonColor: '#53893D' })
             }
     };
-    console.log(AccManage.editInfo)
     const profile = () =>{
         if(AccManage.editInfo!='profile'){
             return (
