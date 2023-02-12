@@ -1,20 +1,35 @@
 import { Button, FormControl, Stack, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { BiAddToQueue } from 'react-icons/bi';
+import Swal from 'sweetalert2';
+import useAppStore from '../../../appStore';
+import FetchWithAuth from '../../../utils/API/Fetch/FetchWithAuth';
 
 const CategoryModal = () => {
-    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm()
+
+    const { register, handleSubmit, formState: { errors }, clearErrors, reset } = useForm()
+    const [formReset, setFormReset] = useState(false)
+    const credentials = useAppStore(state => state.credentials)
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    useEffect(() => {
+        reset()
+    }, [formReset])
     const handleSubmition = (data) => {
-        console.log(data)
+        FetchWithAuth('category/add', credentials.token, data).then(result => {
+            if (result.success === true) {
+                setFormReset(prevFormReset => !prevFormReset)
+                setShow(false)
+                Swal.fire({ title: "Success", text: "You have successfully added a category", icon: "success", confirmButtonColor: '#53893D' })
+            }
+        })
     }
     return (
         <>
-            <Button variant="contained" onClick={handleShow} color="success" startIcon={<BiAddToQueue/>}>
+            <Button variant="contained" onClick={handleShow} color="success" startIcon={<BiAddToQueue />}>
                 Category
             </Button>
             <Modal show={show} onHide={handleClose} size="lg"
