@@ -16,7 +16,8 @@ const Reports = () => {
                 transaction: a.transaction,
                 items: a.items_array.map(a => ([a.product_details.product_name, `(₱${a.product_details.product_price})`, 'x', a.count].join(' '))).join(' , '),
                 total: a.transaction_total,
-                merchant: a.merchant_id
+                merchant: a.merchant_id,
+                date:new Date(a.date_added).toDateString()
             })))
         }
         DataProcessing()
@@ -26,6 +27,7 @@ const Reports = () => {
         { field: 'items', headerName: 'Items', width: 500, align: 'center', headerAlign: 'center' },
         { field: 'total', headerName: 'Total', width: 150, align: 'center', headerAlign: 'center' },
         { field: 'merchant', headerName: 'Merchant', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'date', headerName: 'Transaction Date', width: 150, align: 'center', headerAlign: 'center' },
     ];
     return (<>
         <Grid container sx={{display:'flex',justifyContent:'center'}}>

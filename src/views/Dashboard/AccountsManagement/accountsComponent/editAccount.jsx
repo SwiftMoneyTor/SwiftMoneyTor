@@ -1,9 +1,10 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAppStore from '../../../../appStore';
-import React, {useState} from 'react'
+import FetchWithAuth from '../../../../utils/API/Fetch/FetchWithAuth';
 
-export default function EditAccount(props){
-
+export default function EditAccount(props) {
+    const credentials = useAppStore(state => state.credentials)
     const { register, handleSubmit, watch, formState: { errors }, getValues } = useForm();
     const [passConfirm, setPassConfirm] = useState({
         error: '',
@@ -11,63 +12,45 @@ export default function EditAccount(props){
 
     });
     const onSubmit = data => {
-
-        fetch(`http://localhost:8000/api/userAcc/?users_id=${props.AccInfo.id}&passcheck=${data.passwordConfirmation}`,{
-            method: 'GET',
-            headers:{
-                'Content-type' : 'application/json'
-            }
-        }).then(response => response.json())
-        .then(pass => {
-            if(pass.status === 'match'){
-                putAcc()
-            }else{
-                setPassConfirm(...pass)
-            }
-        })
-        .catch(err=>console.log(err))
-        function putAcc(){
-            fetch(`http://localhost:8000/api/account/update/?users_id=${props.AccInfo.id}`, {
-                method: 'PUT',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-            }
-            })
-            .then(response => console.log(response.json()))
-            .then(res => {
-                const e='cancel'
-                props.toClick(e, res)
+        FetchWithAuth(`account/update?users_id=${props.AccInfo.id}`, credentials.token, data,'PUT').then(res => {
                 console.log(res)
+                props.toClick('account', res)
             })
             .catch(error => console.error(error));
-            }
     };
-    console.log(props.AccInfo.email)
-    return(
+    return (
         <form onSubmit={handleSubmit(onSubmit)} method="POST" className='col-md-12 col-lg-10 col-xl-12 my-4'>
             <div className="input-group mb-3">
                 <span className="input-group-text">Email</span>
-                <input 
-                type="email" 
-                name='email'
-                className={`${errors.email ? 'is-invalid' : ''} form-control text-center`}
-                defaultValue={props.AccInfo.email}
-                aria-invalid={errors.email ? "true" : "false"} 
-                {...register("email",{required : "This field is Required!"})}
+                <input
+                    type="email"
+                    name='email'
+                    className={`${errors.email ? 'is-invalid' : ''} form-control text-center`}
+                    defaultValue={props.AccInfo.email}
+                    aria-invalid={errors.email ? "true" : "false"}
+                    {...register("email", { required: "This field is Required!" })}
                 />
             </div>
             <div className="input-group mb-3">
                 <span className="input-group-text">Password</span>
+<<<<<<< HEAD
                 <input 
                 type="password"
                 defaultValue=''
                 className={`${errors.password && `is-invalid`} form-control text-center`}
                 {...register("password")}
+=======
+                <input
+                    type="password"
+                    defaultValue='password'
+                    className={`${errors.password && `is-invalid`} form-control text-center`}
+                    {...register("password", { required: true })}
+>>>>>>> 205fc94efb49b871e42fe5c2ef290c6b662c6197
                 />
             </div>
             <hr/>
             <div className="input-group mb-3">
+<<<<<<< HEAD
                         <span className="input-group-text">Confirm Changes</span>
                         <input type="password" placeholder='Password' id="confirm-password" className={`${errors['passwordConfirmation'] && `is-invalid` || passConfirm.status == 'error' && `is-invalid`} form-control text-center`} {...register("passwordConfirmation", {
                             required: "Please confirm password!",
@@ -81,10 +64,27 @@ export default function EditAccount(props){
                             Password did not match
                         </span>}
                     </div>
+=======
+                <span className="input-group-text">Confirm Changes</span>
+                <input type="password" placeholder='Password' id="confirm-password" className={`${errors['passwordConfirmation'] && `is-invalid`} form-control text-center`} {...register("passwordConfirmation", {
+                    required: "Please confirm password!",
+                    validate: {
+                        matchesPreviousPassword: (value) => {
+                            const { password } = getValues();
+                            return password === value || "Passwords did not match!";
+                        }
+                    }
+                })}
+                />
+                {errors['passwordConfirmation'] && <span className="invalid-feedback">
+                    {errors['passwordConfirmation'].message}
+                </span>}
+            </div>
+>>>>>>> 205fc94efb49b871e42fe5c2ef290c6b662c6197
             <div className="d-flex justify-content-end align-content-end5">
                 <span className='btn btn-danger me-2 input-group-text fs-5' id='cancel'
                     onClick={props.toClick}>
-                        Cancel
+                    Cancel
                 </span>
                 <button type='submit' className='btn btn-outline-success'>Save</button>
             </div>

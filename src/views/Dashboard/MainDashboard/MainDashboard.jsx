@@ -2,7 +2,11 @@ import Sales from './mainDashComp/Sales';
 import SummInventory from './mainDashComp/SummaryOfInventory';
 import TransactionsModal from './TransactionsModal';
 
+
 const mainDashboard = () => {
+    // useEffect(() => {
+
+    // }, [])
     return (
         <div className="container py-5">
             <div className="col d-flex justify-align-start ps-5">
