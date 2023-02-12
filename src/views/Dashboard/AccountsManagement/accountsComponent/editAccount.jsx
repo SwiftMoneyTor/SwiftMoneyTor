@@ -20,7 +20,7 @@ export default function EditAccount(props){
         }).then(response => response.json())
         .then(pass => {
             if(pass.status === 'match'){
-                // putAcc()
+                putAcc()
             }else{
                 setPassConfirm(...pass)
             }
