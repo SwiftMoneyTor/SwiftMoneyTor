@@ -31,8 +31,8 @@ const Reports = () => {
     ];
     return (<>
         <Grid container sx={{display:'flex',justifyContent:'center'}}>
-            <Grid item md={8} xs={12}>
-                <Table data={{ columns, rows, height: 300 }} />
+            <Grid item md={10} xs={12}>
+                <Table data={{ columns, rows, height: 400 }} />
             </Grid>
         </Grid>
     </>)

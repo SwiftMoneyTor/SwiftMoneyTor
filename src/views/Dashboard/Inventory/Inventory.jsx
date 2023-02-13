@@ -1,23 +1,23 @@
-import { Button } from "@mui/material";
+import { useEffect, useState } from "react";
+import useAppStore from "../../../appStore";
+import FetchWithAuth from "../../../utils/API/Fetch/FetchWithAuth";
 import Table from "../../Template/Table/Table";
 import Filters from "./Filters";
 
 const Inventory = () => {
-    const rows = [
-        { id: 1, item: 'Item 1', quantity: 4 },
-        { id: 2, item: 'Item 2', quantity: 5 },
-        { id: 3, item: 'Item 3', quantity: 10 },
-        { id: 4, item: 'Item 4', quantity: 0 },
-    ];
+    const [rows, setRows] = useState([])
+    const credentials = useAppStore(state => state.credentials)
+    useEffect(() => {
+        FetchWithAuth('inventory/fetch', credentials.token).then(response => {
+            let r = response.responsedata.map((a, i) => ({ ...a, id: i + 1 }));
+            setRows(r)
+        })
+    }, [])
 
     const columns = [
-        { field: 'item', headerName: 'Item', width: 500, headerAlign: 'center' },
-        { field: 'quantity', headerName: 'Quantity', width: 150, headerAlign: 'center', align: 'center' },
-        { field: 'status', headerName: 'Status', width: 150, headerAlign: 'center', renderCell: (cellValues) => cellValues.row.quantity > 0 ? 'in-stock' : 'out-of-stock', align: 'center' },
-        {
-            field: 'options', headerName: 'Options',
-            renderCell: (cellValues) => { return (<Button variant="contained" size="small" color="success">Edit</Button>) }, width: 150, align: "center", headerAlign: 'center',
-        },
+        { field: 'item_name', headerName: 'Item', width: 500, headerAlign: 'center' },
+        { field: 'item_quantity', headerName: 'Quantity', width: 150, headerAlign: 'center', align: 'center' },
+        { field: 'status', headerName: 'Status', width: 150, headerAlign: 'center', renderCell: (cellValues) => cellValues.row.item_quantity > 0 ? 'in-stock' : 'out-of-stock', align: 'center' },
     ];
     return (
         <div className="container pt-3">
