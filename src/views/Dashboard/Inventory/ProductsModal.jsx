@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { MdAddBusiness } from 'react-icons/md';
 import Swal from "sweetalert2";
 import useAppStore from '../../../appStore';
+import FetchWithAuth from "../../../utils/API/Fetch/FetchWithAuth";
 import FetchWithFormData from "../../../utils/API/FetchWithFormData";
 
 const ProductsModal = () => {
@@ -15,11 +16,17 @@ const ProductsModal = () => {
     const [isUploaded, setIsUploaded] = useState(false);
     const [select, setSelect] = useState(1)
     const [formReset, setFormReset] = useState(false)
+    const [categories, setCategories] = useState([])
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     useEffect(() => {
         reset()
     }, [formReset])
+    useEffect(()=>{
+        FetchWithAuth('categories/fetch', credentials.token).then(response => {
+            setCategories(response.responsedata)
+        })
+    },[])
     const handleSubmition = (data) => {
         const formData = new FormData()
         formData.append('product_image', data.product_image[0])
@@ -39,12 +46,6 @@ const ProductsModal = () => {
         })
 
     }
-    const categories = [
-        { name: 'Category 1', id: 1 },
-        { name: 'Category 2', id: 2 },
-        { name: 'Category 3', id: 3 },
-        { name: 'Category 4', id: 4 }
-    ]
     const handleChange = (e) => {
         setSelect(e.target.value)
     }
@@ -69,8 +70,8 @@ const ProductsModal = () => {
                     <Stack spacing={2}>
                         <FormControl variant="outlined">
                             <TextField label="Category" select value={select} name="category" {...register('category', { onChange: handleChange })}>
-                                {categories.map(category => (<MenuItem key={category.id} value={category.id}>
-                                    {category.name}
+                                {categories.map(category => (<MenuItem key={category.category_id} value={category.category_id}>
+                                    {category.category_name}
                                 </MenuItem>))}
                             </TextField>
                         </FormControl>
