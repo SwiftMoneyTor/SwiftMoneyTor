@@ -81,7 +81,7 @@ const AccountsManagement = () => {
                     userId={userId}
                     editInfo={AccManage.editInfo}
                     toClick={clickToEdit}
-                    profileInfo={profileData}
+                    profileInfo={profileData[0] || profileData} 
                 />
             )
         } else {
@@ -90,7 +90,7 @@ const AccountsManagement = () => {
                     userId={userId}
                     editInfo={AccManage.editInfo}
                     toClick={clickToEdit}
-                    profileInfo={profileData}
+                    profileInfo={profileData[0] || profileData}
                 />
             )
         }
@@ -107,10 +107,10 @@ const AccountsManagement = () => {
             )
         } else {
             return (
-                <EditAccount
-                    editInfo={AccManage.editInfo}
-                    toClick={clickToEdit}
-                    AccInfo={profileData}
+                <EditAccount 
+                    editInfo={AccManage.editInfo } 
+                    toClick={ clickToEdit }
+                    AccInfo={profileData[0] || profileData}
                 />
             )
         }

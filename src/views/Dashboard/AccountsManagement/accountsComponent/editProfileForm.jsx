@@ -12,7 +12,6 @@ export default function editProfileForm(props) {
     const onSubmit = data => {
 
         FetchWithAuth(`profile/update?users_id=${props.userId}`, credentials.token, data, 'PUT')
-            .then(response => response.json())
             .then(res => {
                 const e = 'cancel';
                 props.toClick(e, res)
