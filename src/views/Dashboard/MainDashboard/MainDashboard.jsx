@@ -12,7 +12,7 @@ const mainDashboard = () => {
     useEffect(() => {
         let data = { user_id: credentials.id }
         FetchWithAuth('profile/fetch/image', credentials.token, data).then(response => {
-            if (response.responsedata.display_image !== '')
+            if (response.success)
                 setProfilePic(response.responsedata.display_image)
             else
                 setProfilePic(avatar)
