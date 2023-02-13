@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import { AiOutlineUpload } from 'react-icons/ai';
 import Swal from 'sweetalert2';
 import useAppStore from '../../../appStore';
+import avatar from '../../../assets/dashboard/avatar.png';
 import FetchWithAuth from '../../../utils/API/Fetch/FetchWithAuth';
 import './accounts.css';
 import AccHelp from './accountsComponent/accHelp';
@@ -29,7 +30,6 @@ const AccountsManagement = () => {
 
     const userId = JSON.parse(sessionStorage.getItem('auth')).id
     const userPass = JSON.parse(sessionStorage.getItem('auth')).password
-    // let getUserProfileUrl = `http://127.0.0.1:8000/api/profile/fetch?users_id=${userId}`
 
     useEffect(() => {
         FetchWithAuth(`profile/fetch?users_id=${userId}`, credentials.token)
@@ -40,7 +40,10 @@ const AccountsManagement = () => {
                     loading: false
                 }))
                 console.log(data)
-                setProfilePic(data.display_image)
+                if (data.display_image)
+                    setProfilePic(data.display_image)
+                else
+                    setProfilePic(avatar)
             })
             .catch(err => {
                 setAccManage(error => ({

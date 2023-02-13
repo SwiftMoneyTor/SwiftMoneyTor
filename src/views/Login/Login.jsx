@@ -2,6 +2,7 @@ import { Col, Container, Image, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { MdDeleteSweep } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAppStore from "../../appStore";
 import loginImgLg from '../../assets/Login-lg.png';
 import FetchAPI from "../../utils/API/Fetch/FetchAPI";
@@ -21,15 +22,21 @@ const Login = () => {
                     "email": data.email,
                     "password": data.password
                 }, 'POST').then(response => {
-                    let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email, id: response.user.id }
-                    setCredentials(creds)
-                    setAuth()
-                    sessionStorage.setItem('auth', JSON.stringify(creds))
-                    navigate('/dashboard', { replace: true }, [navigate])
+                    if (response.status === 'error') {
+                        Swal.fire({ title: 'Failed', text: 'Account Not Found, Please Sign Up', icon: 'error' })
+                    }
+                    else {
+                        let creds = { ...credentials, token: response.authorisation.token, name: response.user.name, email: response.user.email, id: response.user.id }
+                        setCredentials(creds)
+                        setAuth()
+                        sessionStorage.setItem('auth', JSON.stringify(creds))
+                        navigate('/dashboard', { replace: true }, [navigate])
+                    }
+
                 }
                 )
-            }          
-            DataProcessing()    
+            }
+            DataProcessing()
         }
     }
     const handleClick = () => {
@@ -48,7 +55,6 @@ const Login = () => {
                         <Col className="">
                             <main className="form-signin m-auto">
                                 <form action="" onSubmit={handleSubmit(handleSubmition)} className=" m-auto d-flex flex-column gap-2">
-                                    {/* <fieldset className="border border-success p-5 rounded-5"><legend>Login</legend> */}
                                     <div className="d-flex gap-2 align-items-start flex-column">
                                         <label htmlFor="email">Email</label>
                                         <input type="email" id="email" className={`${errors.email && `is-invalid`} form-control`}{...register("email", { required: true })} />
@@ -67,7 +73,6 @@ const Login = () => {
                                         <button className="btn btn-lg btn-success align-self-center" type="submit">Sign in</button>
                                     </div>
                                     <button className={`${Object.keys(errors).length > 0 ? `visible` : `invisible`} btn btn-link`} onClick={() => clearErrors()} type="button"><MdDeleteSweep /> Remove errors</button>
-                                    {/* </fieldset> */}
                                 </form>
                                 <div className="mobileDarkBg me-1">
                                     <span className="d-flex align-items-center justify-content-center">

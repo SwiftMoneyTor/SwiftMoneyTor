@@ -4,9 +4,6 @@ import TransactionsModal from './TransactionsModal';
 
 
 const mainDashboard = () => {
-    // useEffect(() => {
-
-    // }, [])
     return (
         <div className="container py-5">
             <div className="col d-flex justify-align-start ps-5">
