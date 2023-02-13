@@ -2,6 +2,7 @@ import Sales from './mainDashComp/Sales';
 import SummInventory from './mainDashComp/SummaryOfInventory';
 import TransactionsModal from './TransactionsModal';
 
+
 const mainDashboard = () => {
     return (
         <div className="container py-5">

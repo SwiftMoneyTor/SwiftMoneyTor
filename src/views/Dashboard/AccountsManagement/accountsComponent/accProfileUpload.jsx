@@ -1,42 +1,61 @@
-import React, {useState, useCallback} from 'react'
-import { Hidden } from '@mui/material';
-import {useDropzone} from 'react-dropzone'
-
+import { Button, ButtonGroup, FormControl, Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import useAppStore from '../../../../appStore';
+import FetchWithFormData from '../../../../utils/API/FetchWithFormData';
 
 
 const AccProfileUpload = () => {
+    const credentials = useAppStore(state => state.credentials)
+    const setProfilePic = useAppStore(state => state.setProfilePic)
+    const [image, setImage] = useState('')
+    const [isUploaded, setIsUploaded] = useState(false)
+    const { register, handleSubmit } = useForm()
+    const handleSubmition = (data) => {
+        console.log(data)
+        const formData = new FormData
+        formData.set('display_image', data.display_profile[0])
+        formData.set('user_id', credentials.id)
+        FetchWithFormData('profile/update/image', credentials.token, formData).then(response => {
+            if (response.data.success) {
+                setProfilePic(response.data.responsedata)
+            }
+        })
+    }
+    const handleChangeImage = (e) => {
+        setImage(URL.createObjectURL(e.target.files[0]))
+        setIsUploaded(true)
+    }
+    const handleClickClearImage = () => {
+        setImage('')
+        setIsUploaded(false)
+    }
+    return (
+        <>
+            <Grid container justifyContent="center" spacing={2}>
+                {isUploaded &&
 
-    const onDrop = useCallback((acceptedFiles) => {
-        // Do something with the files
-        Array.from(acceptedFiles).forEach((file) => {
-            const reader = new FileReader()
-
-            reader.onabort = () => console.log('file reading was aborted')
-            reader.onerror = () => console.log('file reading has failed')
-            reader.onload = () => {
-            // Do whatever you want with the file contents
-                const binaryStr = reader.result
-                console.log(binaryStr)
+                    <Grid item>
+                        <img src={image ?? ''} height={150} />
+                    </Grid>
                 }
-                reader.readAsArrayBuffer(file)
-            })
-        }, [])
-        const {getRootProps, getInputProps} = useDropzone({onDrop, accept:{'image/jpeg': [], 'image/png': []}})
-        
-        return (
-            <>
-                <div {...getRootProps({
-                    className: 'border border-success rounded-4 border-3 w-100 h-100 d-flex my-5',
-                })}>
-                    <input type="file" name="img" {...getInputProps()} />
-                    <p className='d-flex align-self-center mx-auto'>Click or drop files here.</p>
-                </div>
-                <div>
-                    <button className='btn btn-outline-warning text-black' onClick={onDrop}>Upload</button>
-                </div>
-            </>
-        )
+                <Grid item>
+                    <form onSubmit={handleSubmit(handleSubmition)}>
+                        {!isUploaded && <FormControl variant="outlined">
+                            <Button variant="contained" color="success" component="label">
+                                Upload
+                                <input accept="image/*" hidden type="file" {...register('display_profile', { onChange: handleChangeImage })} />
+                            </Button>
+                        </FormControl>}
+                        {isUploaded && <ButtonGroup sx={{ padding: '20px' }}>
+                            <Button variant="contained" color="warning" type="submit">Save</Button>
+                            <Button variant="contained" color="success" onClick={handleClickClearImage}>Clear</Button>
+                        </ButtonGroup>}
+                    </form>
+                </Grid>
+            </Grid>
+        </>)
 
-};
+}
 
 export default AccProfileUpload;
