@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { MdPostAdd } from 'react-icons/md';
+import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAppStore from '../../../appStore';
 import FetchWithAuth from "../../../utils/API/Fetch/FetchWithAuth";
 
 const InventoryModal = () => {
+    const navigate= useNavigate()
     const credentials = useAppStore(state => state.credentials)
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm()
     const [show, setShow] = useState(false);
@@ -32,6 +34,7 @@ const InventoryModal = () => {
             if (response.success) {
                 setShow(false)
                 Swal.fire({ title: 'Success', text: 'successfully added in inventory', icon: 'success' })
+                navigate('/inventory', { replace: true }, [navigate])
             }
         })
     }
